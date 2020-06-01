@@ -1,0 +1,42 @@
+{% extends 'base3.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+  <li class="breadcrumb-item active"><a href="{% url 'rekthome' %}">REKT</a></li>
+  <li class="breadcrumb-item active">EarlyAccess Progress</li>
+{% endblock %}
+
+{% block content%}
+<div class="upload-status-text">
+    <h1 class="status-header-text"><strong> EarlyAccess Upload Progress</strong></h1>
+<a href="{% url 'eahistory' %}"><div class="float-right"><button type="button" class="btn btn-outline-dark">
+EA Upload History</button></div></a>
+</div>
+<br>
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Current Process</th>
+    <th>Time Start</th>
+    <th>Time Elapsed</th>
+    <th>Current Upload Type</th>
+  </tr>
+</thead>
+{% for d in data %}
+<tr>
+  <td>{{ d.current_process}}</td>
+  <td>{{ d.time_start}}</td>
+  <td>{{ d.time_elapsed}}</td>
+  <td>{{ d.current_upload_type|capfirst }}</td>
+</tr>
+
+{% endfor %}
+</table>
+</div>
+
+
+{% endblock %}

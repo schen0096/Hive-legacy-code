@@ -1,0 +1,34 @@
+{% extends 'base.html' %}{% block foo %}{% include 'navbar.html'%}{% endblock %}{% load user_tags %}{% load static %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active">
+  <a href="{% url 'home' %}">Home</a>
+</li>
+<li class="breadcrumb-item active" >
+ <a href="{% url 'argushome' %}"> Argus </a>
+</li>
+<li class="breadcrumb-item active">
+  Developer Name Unification
+</li>
+{% endblock %}
+
+{% block content %}
+<h5 align="center">Developer Name Unification</h5>
+<div class="table-responsive">
+    <table class='table table-striped'>
+        <thead>
+        <tr>
+          <th>Developer 1</th>
+          <th>Developer 2</th>
+
+        </tr>
+      </thead>
+    {% for s in devNameTable %}
+    <tr>
+    <td>{{ s.developer_1 }}</td>
+    <td>{{ s.developer_2 }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    </div>
+
+{% endblock %}

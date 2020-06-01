@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+  <li class="breadcrumb-item active"><a href="{% url 'rekthome' %}">REKT</a></li>
+  <li class="breadcrumb-item active">EarlyAccess Upload History</li>
+{% endblock %}
+{% block content %}
+<nav class="navbar bg-light justify-content-center" >
+<form class="form-inline" method="GET" action="{% url 'easearch' %}">
+<div class="container">
+<div class="row">
+<div class="col-5">
+    <select class="custom-select" name="p">
+        <option value="" disabled selected>Choose Month</option>
+        <option value="1">January</option>
+        <option value="2">February</option>
+        <option value="3">March</option>
+        <option value="4">April</option>
+        <option value="5">May</option>
+        <option value="6">June</option>
+        <option value="7">July</option>
+        <option value="8">August</option>
+        <option value="9">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+    </select></div>
+<div class="col-5">
+    <select class="custom-select" name="q">
+            <option value="" disabled selected>Choose Year</option>
+            <option value="2020">2020</option>
+            <option value="2019">2019</option>
+            <option value="2018">2018</option>
+    </select></div>
+<div class="col-2">
+   <button class="btn btn-success" type="submit">Search</button>
+</div></div></div>
+</form>
+</nav>
+<br>
+<table class='table table-striped'>
+    <thead>
+    <tr>
+      <th>Current Process</th>
+      <th>Time Start</th>
+      <th>Time Elapsed</th>
+      <th>Upload Type</th>
+    </tr>
+  </thead>
+{% for h in historyTable %}
+<tr>
+<td>{{ h.current_process }}</td>
+<td>{{ h.time_start }}</td>
+<td>{{ h.time_elapsed}}</td>
+<td>{{ h.upload_type|capfirst }}</td>
+</tr>
+{% endfor %}
+</table>
+{% if historyTable.has_other_pages %}
+<ul class="pagination" >
+    {% if historyTable.has_previous %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ historyTable.previous_page_number }}&q={{request.GET.q}}&p={{request.GET.p}}">Prev</a>
+        </li>
+        {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link">Previous</span>
+                </li>
+          {% endif %}
+
+          {% for page_num in historyTable.paginator.page_range %}
+                  {% if historyTable.number == page_num %}
+                    <li class="page-item active">
+                      <span class="page-link">
+                        {{ page_num }}
+                        <span class="sr-only">(current)</span>
+                      </span>
+                    </li>
+                  {% else %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ page_num }}&q={{request.GET.q}}&p={{request.GET.p}}">{{ page_num }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+
+                {% if historyTable.has_next %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ historyTable.next_page_number }}&q={{request.GET.q}}&p={{request.GET.p}}">Next</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                  </li>
+                {% endif %}
+              </ul>
+
+          {% endif %}
+
+{% endblock %}

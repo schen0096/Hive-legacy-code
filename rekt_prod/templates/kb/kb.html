@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block foo %}{% include 'navbar.html' %}{% load user_tags %}{% load static %}
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+  <li class="breadcrumb-item active">Knowledge Base</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="form-box">
+  <form method="GET" action="{% url 'faq_search' %}" class="form-inline form-box">
+    <input name="q" value="{{ request.GET.q }}" class="form-control search-input" type="search" placeholder="Search for a question" aria-label="Search">
+    <button type="submit" class="btn btn-success search-btn">Search</button>
+  </form>
+</div>
+
+
+<br>
+<h2>Categories</h2>
+<br>
+<div class="superdata-link">
+<div class="card-columns">
+  <div class="card text-center">
+    <div class="card-body">
+
+      <h2>  <a href="{% url 'overall' %}">All Questions</a></h2>
+    </div>
+  </div>
+  {% for c in category %}
+  <div class="card text-center">
+	      <!--style="background-color:{{c.description}}"-->
+  <a href="{% url 'faq' c.name %}" class="superdata-link">
+    <div class="card-body">
+      <h2 >{{ c.name|capfirst }} </h2>
+      </a></div>
+  </div>
+
+    {% endfor %}
+</div>
+<br>
+<p>To learn more about this feature, please contact  <a href="{% url 'team_member' username='puhong' %}" target="_blank">Puhong Zhu</a></p>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}{% block foo %}{% include 'navbar.html' %}{% endblock %}{% load user_tags %}
+{% block title %}Knowledge Base - {{ category.name | capfirst}}{% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'kb' %}">Knowledge Base</a></li>
+<li class="breadcrumb-item active">{{ category.name |capfirst}}</li>
+{% endblock %}
+{% block content %}
+<div class="form-box">
+  <form method="GET" action="{% url 'faq_search' %}" class="form-inline form-box">
+    <input name="q" value="{{ request.GET.q }}" class="form-control search-input" type="search" placeholder="Search for a question" aria-label="Search">
+    <button type="submit" class="btn btn-success search-btn">Search</button>
+  </form>
+</div>
+
+  {% if request.user|has_group:'Level 2' or request.user|has_group:'Level 5' %}
+  <div class="text-center new-question-btn">
+    <a href="{% url 'new_FAQ' category.name %}" ><button class="btn btn-primary">New Question</button></a>
+  </div>
+  {% endif %}
+<br>
+<h2>{{category.name|capfirst}}</h2><br>
+<div class="superdata-link">
+  <table class="table table-bordered">
+    {% for q in question %}
+      <tr>
+        <td>
+          <a href="{% url 'answer' category.name q.pk %}"><h5>{% if q.pin_value == 1 %} <img src="https://superdata-test-bucket.s3.amazonaws.com/pin-icon.png" class="img-responsive" alt="Pin" width="15" height="15">{% endif %} {{ q.subject }}</h5></a>
+        </td>
+        {% if request.user|has_group:'Level 2' or request.user|has_group:'Level 5' %}
+        <td>
+          {% if q.pin_value == 0 %}
+            <a href="{% url 'pinQuestion' q.category_id.name q.pk %}"><button type="button" class="btn btn-warning btn-sm">Pin</button></a>
+            {% else %}
+            <a href="{% url 'unpinQuestion' q.category_id.name q.pk %}"> <button type="button" class="btn btn-warning btn-sm">Unpin</button></a>
+            {% endif %}
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+  </table>
+
+{% if question.has_other_pages %}
+<ul class="pagination">
+  {% if question.has_previous %}
+    <li class="page-item">
+      <a class="page-link" style="color:#f57838" href="?page={{ question.previous_page_number }}">Previous</a>
+    </li>
+    {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">Previous</span>
+            </li>
+      {% endif %}
+
+      {% for page_num in question.paginator.page_range %}
+              {% if question.number == page_num %}
+                <li class="page-item active">
+                  <span class="page-link">
+                    {{ page_num }}
+                    <span class="sr-only">(current)</span>
+                  </span>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+
+            {% if question.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ question.next_page_number }}">Next</a>
+              </li>
+            {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">Next</span>
+              </li>
+            {% endif %}
+          </ul>
+
+      {% endif %}
+</div>
+   <span class="glyphicon glyphicon-pushpin"></span>
+
+{% endblock %}

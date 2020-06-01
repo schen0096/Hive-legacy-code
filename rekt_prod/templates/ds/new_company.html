@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Add New Company{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'clientlist' %}">Data Schedule</a></li>
+  <li class="breadcrumb-item active">New Company</li>
+
+{% endblock %}
+{% block content %}
+<div>
+
+<h3 class="mb-3"> &nbsp Add a new company</h3>
+<form method="POST">
+  {% csrf_token %}
+  <div class="col-9">
+    <div class="row">
+
+<div class="col-6">
+    <p><label >Company Name: </label>
+    {{ form.cname |add_class:'form-control' }}</p>
+  </div>
+  <div class="col-6">
+      <p><label >Organization ID: </label>
+      {{ form.orgid |add_class:'form-control' }}</p>
+    </div>
+</div>
+</div>
+<div class="col-9">
+<div class="row">
+  <div class="col-6">
+
+  <p><label >Contact Person First Name: </label>
+{{ form.poc_firstname|add_class:'form-control' }}</p>
+</div>
+<div class="col-6 ">
+  <label >Contact Person Last Name: </label>
+  {{ form.poc_lastname|add_class:'form-control' }}
+</div>
+</div>
+</div>
+
+<div class="col-9">
+
+  <p><label >Contact Person Email: </label>
+  {{ form.poc_email |add_class:'form-control' }}</p>
+
+</div>
+<div class="col-9">
+
+  <p><label >Contract Link: </label>
+  {{ form.contract |add_class:'form-control' }}</p>
+
+</div>
+<div class="col-9">
+    <div class="row">
+<div class="col-3">
+  <p><label >Client Status: </label>
+  {{ form.client_status |add_class:'form-control' }}</p>
+</div>
+<div class="col-3">
+  <label >Arcade Access Status: </label>
+  {{ form.arcade_access_status |add_class:'form-control' }}
+</div>
+<div class="col-3">
+  <label >XR Status: </label>
+  {{ form.xr_status |add_class:'form-control' }}
+</div>
+<div class="col-3">
+  <label >Arcade Client ID: </label>
+  {{ form.arcade_id |add_class:'form-control' }}
+</div>
+</div>
+</div>
+
+
+<div class="col-9">
+<div class="row">
+<div class="col-4">
+  <p><label >Custom Deliverables: </label>
+  {{ form.custom_deliverables|add_class:'form-control' }}</p>
+</div>
+<div class="col-4">
+  <label >Syndicated Reports: </label>
+  {{ form.syndicated_reports|add_class:'form-control' }}
+</div>
+<div class="col-4">
+  <label >Label: </label>
+  <select class="selectpicker form-control" title="Choose Client Label" name="select_labels">
+    {% for label in labels%}
+    <option>{{ label.label_name }}</option>
+    {% endfor %}
+    </select>
+</div>
+</div>
+</div>
+<br>
+<div class="col-9">
+  <div class="row">
+    <div class="col-4">
+  <button type="submit" class="btn btn-success" >Submit</button>
+  <a href="{% url 'clientlist' %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+</div>
+
+</div>
+</div>
+</form>
+</div>
+
+
+
+{% endblock %}

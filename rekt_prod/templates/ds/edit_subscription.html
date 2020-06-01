@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Edit Arcade Subscription History{% endblock %}
+
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'clientlist' %}">Data Schedule</a></li>
+<li class="breadcrumb-item"><a href="{% url 'client_pages' subscription.company_id.orgid %}">{{ subscription.company_id.cname }}</a></li>
+  <li class="breadcrumb-item active">Edit Subscription History</li>
+{% endblock %}
+
+{% block content %}
+<h3> Edit Subscription History</h3>
+<br>
+  <form method="POST" class="mb-4" novalidate>
+    {% csrf_token %}
+    <div class="container">
+      <div class="row">
+
+    <div class="col-4">
+      <p><label> Subscription Start Date:</label>
+      {{ form.subscription_start |add_class:'form-control'}}</p>
+
+    </div>
+    <div class="col-4">
+      <p><label> Subscription End Date:</label>
+      {{ form.subscription_end |add_class:'form-control'}}</p>
+
+    </div>
+
+
+
+
+
+    </div>
+    </div>
+    <br>
+    <div class="col-4"><button type="submit" class="btn btn-success">Save changes</button>
+    <a href="{% url 'client_pages' subscription.company_id.orgid %}" class="btn btn-outline-secondary" role="button">Cancel</a></div>
+  </form>
+{% endblock %}

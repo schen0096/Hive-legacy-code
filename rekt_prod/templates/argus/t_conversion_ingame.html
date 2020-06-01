@@ -1,0 +1,45 @@
+{% extends 'base.html' %}{% block foo %}{% include 'navbar.html'%}{% endblock %}{% load user_tags %}{% load static %}
+{% block title %}Hive Argus{% endblock %}{% block breadcrumb %}
+<li class="breadcrumb-item active">
+  <a href="{% url 'home' %}">Home</a>
+</li>
+<li class="breadcrumb-item active" >
+ <a href="{% url 'argushome' %}"> Argus </a>
+</li>
+<li class="breadcrumb-item active">
+ Title Level Converision Ingame
+</li>
+{% endblock %}
+
+{% block content%}
+<h5 align="center">Title Level Conversion Ingame</h5>
+<div class="table-responsive">
+        <table class='table table-striped'>
+            <thead>
+            <tr>
+              <th>Title</th>
+              <th>Segment</th>
+              <th>Platform</th>
+              <th>Month</th>
+              <th>Year</th>
+              <th>Worldwide In-Game Spending Conversion</th>
+              <th>Regions In-Game Spending Conversion</th>
+              <th>Difference Percentage</th>
+            </tr>
+          </thead>
+        {% for r in table %}
+        <tr>
+        <td>{{ r.title }}</td>
+        <td>{{ r.segment }}</td>
+        <td>{{ r.platform }}</td>
+        <td>{{ r.month }}</td>
+        <td>{{ r.year }}</td>
+        <td>{{ r.worldwide_in_game_spending_conversion }}</td>
+        <td>{{ r.regions_in_game_spending_conversion }}</td>
+        <td>{{ r.in_game_spending_conversion_difference_percentage }}</td>
+
+        </tr>
+        {% endfor %}
+        </table>
+        </div>
+{% endblock %}

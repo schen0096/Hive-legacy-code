@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Ask a New Question{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'home'%}">Home</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'kb' %}">Knowledge Base</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'faq' category.name %}">{{ category.name |capfirst }}</a></li>
+  <li class="breadcrumb-item active">New question</li>
+
+{% endblock %}
+{% block content %}
+<h3>Add a new Q&A </h3>
+
+
+
+    <form method="POST" >
+        {% csrf_token %}
+        {{ aform.media }}
+
+
+          <div style="width: 70%" >
+          <label>Subject</label>
+          {{ qform.subject |add_class:'form-control'  }}
+        </div>
+<br>
+          <label>Answer</label>
+
+        <p>  {{ aform.answer }}</p>
+
+
+      <button type="submit" class="btn btn-success">Post</button>
+      <a href="{% url 'faq' category.name %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+      </form>
+
+
+
+
+
+{% endblock %}

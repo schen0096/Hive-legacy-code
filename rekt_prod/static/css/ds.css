@@ -1,0 +1,16 @@
+
+  .active-color {
+   /* Green */
+  color:#44b97e;
+  }
+  .inactive-color{
+   /* Orange */
+     color:#f57838;
+  }
+  .alert-color{
+    /* Red */
+    color:#eb1e4f;
+    font-weight: bold;
+  }
+
+

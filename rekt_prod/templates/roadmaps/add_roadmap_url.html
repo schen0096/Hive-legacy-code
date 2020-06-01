@@ -1,0 +1,20 @@
+{% extends 'base.html' %}{% block foo %}{% include 'navbar.html' %}{% endblock %}
+{% load widget_tweaks %}{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{% url 'roadmap_list'%}">Roadmaps</a></li>
+  <li class="breadcrumb-item active">Add New Roadmap</li>
+{% endblock %}
+
+{% block content %}
+<h3>Add New Roadmap</h3>
+<br>
+<form method="POST">
+    {% csrf_token %}
+    <p><label >Roadmap Title: </label>
+    <p>{{form.roadmap_title |add_class:'form-control'}}</p>
+    <p><label >Roadmap Url: </label>
+    <p>{{form.roadmap_url|add_class:'form-control'}}</p>
+    <br>
+<button type="submit" class="btn btn-success">Submit</button>
+<a href="{% url 'roadmap_list'%}" class="btn btn-outline-secondary" role="button">Cancel</a>
+</form>
+{% endblock %}

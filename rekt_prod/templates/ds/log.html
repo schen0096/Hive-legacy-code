@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% block breadcrumb %}
+  <li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+  <li class="breadcrumb-item active">Data Schedule Log</li>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+      <div class="col-7">
+        <form class="form-inline" method="GET" action="{% url 'logSearch' %}">
+          <input name="q" value="{{ request.GET.q }}" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+
+        </form>
+
+
+      </div>
+      </div>
+      </div>
+<br>
+
+<table class="table superdata-link">
+<tr>
+  <th>Organization ID</th>
+  <th>Company Name</th>
+</tr>
+
+    <tbody>
+
+    {% for log in log %}
+    <tr>
+    <td>
+      <a href="{% url 'logcompany' log.orgid_value %}" >{{ log.orgid_value }}</a>
+    </td>
+    <td>
+      {% for c in cname %}
+      {% if c.orgid == log.orgid_value %}  {{ c.cname }}
+    </td>
+{% endif %}
+{% endfor %}
+{% endfor %}
+</tr>
+  </tbody>
+</table>
+
+<div class="superdata-link">
+{% if log.has_other_pages %}
+<ul class="pagination">
+  {% if log.has_previous %}
+  <li class="page-item">
+    <a class="page-link" href="?page={{ log.previous_page_number }}">Previous</a>
+  </li>
+  {% else %}
+          <li class="page-item disabled">
+            <span class="page-link">Previous</span>
+          </li>
+    {% endif %}
+
+    {% for page_num in log.paginator.page_range %}
+            {% if log.number == page_num %}
+              <li class="page-item active">
+                <span class="page-link">
+                  {{ page_num }}
+                  <span class="sr-only">(current)</span>
+                </span>
+              </li>
+            {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+          {% if log.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ log.next_page_number }}">Next</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">Next</span>
+            </li>
+          {% endif %}
+        </ul>
+
+    {% endif %}
+</div>
+<div class="superdata-link">
+  <p>To learn more about this feature, please contact  <a href="{% url 'team_member' username='chen.ke' %}" target="_blank">Chen Ke</a></p>
+</div>
+{% endblock %}

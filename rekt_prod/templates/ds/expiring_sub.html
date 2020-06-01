@@ -1,0 +1,86 @@
+{% extends 'base2.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load user_tags %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'clientlist' %}">Data Schedule</a></li>
+  <li class="breadcrumb-item">Expiring Accounts</li>
+{% endblock %}
+
+{% block content %}
+<h2>Expired Active Accounts</h2>
+<table class="table superdata-link">
+  <tr>
+    <th style="width: 25%">Company</th>
+    <th>Expiring Date</th>
+    <th>Arcade Access Status</th>
+    <th>Last Updated</th>
+  </tr>
+
+  <tbody>
+      {% for s in expActive %}
+      <td><a href="{% url 'client_pages' s.company_id__orgid %}">{{ s.company_id__cname}}</a></td>
+      <td>{{s.last}}</td>
+      <td>ACTIVE</td>
+      <td>{% for log in logExpActive %}
+          {% if log.orgid__orgid_value == s.company_id__orgid and log.sub_id == s.subID %}
+          {{ log.last}}
+          {% endif %}
+          {% endfor %}
+      </td>
+  </tbody>
+  {% endfor %}
+  </table>
+
+
+<h2>{% now "F Y" %}</h2>
+<table class="table superdata-link">
+    <tr>
+      <th style="width: 25%">Company</th>
+      <th>Expiring Date</th>
+      <th>Arcade Access Status</th>
+      <th>Last Updated</th>
+    </tr>
+
+    <tbody>
+        {% for s in expSubHist %}
+        <td><a href="{% url 'client_pages' s.company_id.orgid %}">{{ s.company_id.cname}}</a></td>
+        <td>{{s.subscription_end}}</td>
+        <td>{{s.company_id.arcade_access_status}}</td>
+        <td>{% for log in HistLog %}
+            {% if log.sub_id == s.sub_id and log.subscription_start == s.subscription_start and log.subscription_end == s.subscription_end %}
+            {{ log.time}}
+            {% endif %}
+            {% endfor %}
+        </td>
+    </tbody>
+    {% endfor %}
+    </table>
+
+    <h2>{{ nextExp }}</h2>
+    <table class="table superdata-link">
+      <tr>
+        <th style="width: 25%">Company</th>
+        <th>Expiring Date</th>
+        <th>Arcade Access Status</th>
+        <th>Last Updated</th>
+      </tr>
+      <tbody>
+          {% for s in nextExpSub %}
+          <td><a href="{% url 'client_pages' s.company_id.orgid %}">{{ s.company_id.cname}}</a></td>
+          <td>{{s.subscription_end}}</td>
+          <td>{{s.company_id.client_status}}</td>
+          <td>{% for log in nextHistLog %}
+              {% if log.sub_id == s.sub_id and log.subscription_start == s.subscription_start and log.subscription_end == s.subscription_end %}
+              {{ log.time}}
+              {% endif %}
+              {% endfor %}
+          </td>
+      </tbody>
+      {% endfor %}
+      </table>
+
+    {% endblock%}

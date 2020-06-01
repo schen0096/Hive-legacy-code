@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Profile Page{% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item">Profile Page</li>
+{% endblock %}
+{% block content%}
+<div class="container"><a href='{% url 'edit_profile' %}'><button class="btn btn-primary" >Edit Profile</button></a></div>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+    <h2>{{currentUser.first_name |capfirst}} {{currentUser.last_name |capfirst}}</h2>
+    <h5>{{currentUser.profile.position}}</h5>
+    <h5>{{currentUser.profile.phone}}</h5>
+    {{currentUser.profile.description}}
+    </div>
+    <div class="col-6">
+    {% if url == ""%}
+    {{ url }}
+    {% else %}
+    <img src={{url}} width="200" height="200"></img>
+    {% endif %}
+    <p><a href='{% url 'edit_profile_photo'%}'><button class="btn btn-primary btn-sm"> &nbsp &nbsp &nbsp &nbsp Upload Profile Photo &nbsp&nbsp&nbsp &nbsp</button></a></p>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container">
+    <h4>Gaming Platforms</h4>
+  <div class="row">
+    {% for k,v in gamingList.items %}
+    {% if v != "" %}
+    <div class="col-6">
+      <h5>{{k |cut:"_id"|capfirst}}: {{v}}</h5>
+  </div>
+{% endif %}
+{% endfor %}
+  </div>
+  </div>
+<br>
+<div class="container">
+  <h4>Social Platforms</h4>
+  <div class="row">
+    {% for k,v in socialList.items %}
+    {% if v != "" %}
+    <div class="col-6">
+  <h5>{{k |cut:"_id"|capfirst}}: {{v}}</h5>
+  </div>
+  {% endif %}
+  {% endfor %}
+  </div>
+  </div>
+<br>
+{% endblock%}

@@ -1,0 +1,48 @@
+{% load static %}<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+
+
+    <title>SuperData HIVE Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{% static 'css/signin.css' %}">
+    <link rel="stylesheet" href="{% static 'css/website.css' %}">
+  </head>
+<style>
+      h1 {
+        display: block;
+        font-size: 4em;
+        font-weight: bold;
+      }
+      </style>
+
+  <body class="text-center">
+      <h1>HIVE</h1>
+    <form class="form-signin"  method="POST" novalidate>
+          {% csrf_token %}
+
+
+      <br>
+
+
+
+           <label class="sr-only">Username</label>
+           <input type="text" name="username" class="form-control" placeholder="Username" required>
+
+           <label class="sr-only">Password</label>
+           <input type="password" name="password" class="form-control" placeholder="Password" required>
+
+
+
+      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+
+    </form>
+  </body>
+
+</html>

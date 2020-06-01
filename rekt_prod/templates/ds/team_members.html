@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Team Page{% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item">Teams</li>
+{% endblock %}
+{% block content%}
+<h3>Research</h3>
+<br>
+<div class="container">
+    <div class="superdata-link">
+        <div class="row">
+            {% for member in researchTeam%}
+            <div class="col-6">
+                <h5><a href="{% url 'team_member' member.username %}">{{member.first_name |capfirst}} {{member.last_name |capfirst}}</a></h5>
+                </div>
+                {% endfor %}
+        </div>
+    </div>
+</div>
+<br>
+<h3>Technovation</h3>
+<br>
+<div class="container">
+    <div class="superdata-link">
+        <div class="row">
+        {% for member in techTeam%}
+        <div class="col-6">
+            <h5><a href="{% url 'team_member' member.username %}">{{member.first_name |capfirst}} {{member.last_name |capfirst}}</a></h5>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+<br>
+<h3>Commercial</h3>
+<br>
+<div class="container">
+    <div class="superdata-link">
+        <div class="row">
+            {% for member in commercialTeam%}
+            <div class="col-6">
+                <h5><a href="{% url 'team_member' member.username %}">{{member.first_name |capfirst}} {{member.last_name |capfirst}}</a></h5>
+                </div>
+                {% endfor %}
+        </div>
+    </div>
+</div>
+<br>
+<h3>Products</h3>
+<br>
+<div class="container">
+    <div class="superdata-link">
+        <div class="row">
+            {% for member in productsTeam%}
+            <div class="col-6">
+                <h5><a href="{% url 'team_member' member.username %}">{{member.first_name |capfirst}} {{member.last_name |capfirst}}</a></h5>
+                </div>
+                {% endfor %}
+        </div>
+    </div>
+</div>
+<br>
+<h3>Marketing</h3>
+<br>
+<div class="container">
+    <div class="superdata-link">
+        <div class="row">
+            {% for member in marketingTeam%}
+            <div class="col-6">
+                <h5><a href="{% url 'team_member' member.username %}">{{member.first_name |capfirst}} {{member.last_name |capfirst}}</a></h5>
+                </div>
+                {% endfor %}
+        </div>
+    </div>
+</div>
+<br>
+<br>
+{% endblock %}

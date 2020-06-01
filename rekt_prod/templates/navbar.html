@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+{% load static %}
+<body>
+        {% block body %}
+
+        <nav class='navbar navbar-expand-lg navbar-dark'>
+        <div class="container">
+        <!-- previous rekt alpha home logo on menu bar -->
+        <!-- <a class="navbar-brand" href="{% url 'home'%}"><strong>REKT Alpha</strong></a> -->
+        <a class="navbar-brand" href="{% url 'home'%}">
+          <!-- <img class="rekt-alpha-logo" src="{% static '/image/REKTlogo.png' %}" alt="rektalphalogo" /> -->
+          <strong>SuperData Hive</strong>
+        </a>
+
+           <div class="float-right">
+             <div class="btn-group">
+                <button type="button" class="btn dropdown-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <!-- icon for user -->
+                  <a class="username-bar" href= "#" style="color: #f4f4f4;">
+                    <i class="fa fa-user"></i>
+                    {{ user.username }}
+                  </a>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{% url 'profile_page' %}">Show Profile</a>
+
+                  <a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Profile</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href= "{% url 'logout'%}">Log Out</a>
+                </div>
+             </div>
+             <!-- <a href= {% url 'logout'%} class="btn btn-outline-light">Log Out</a> -->
+           </div>
+
+        </div>
+      </nav>
+
+
+        {% endblock body %}
+      </body>
+
+      </html>

@@ -1,0 +1,21 @@
+{% load static %}<!DOCTYPE html>
+<html>
+
+
+
+<form action="" method="POST">
+    {% csrf_token%}
+    {{aform.media}}
+
+    <label>Subject</label>
+    {{ qform.subject  }}
+  </div>
+
+
+    <label>Answer</label>
+
+    {{ aform.answer }}
+    <input type="submit" class="btn btn-success">Post</button>
+</form>
+
+</html>

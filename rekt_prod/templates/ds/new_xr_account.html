@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Add a new Arcade Account{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'clientlist' %}">Data Schedule</a></li>
+  <li class="breadcrumb-item active"><a href="{% url 'client_pages' company.orgid %}">{{ company.cname }}</a></li>
+  <li class="breadcrumb-item active">New XR Account</li>
+
+{% endblock %}
+{% block content %}
+
+
+<h3> Add New XR User Account</h3>
+
+<div class=container>
+
+  <div class="row">
+    <div class=col-8>
+        <br>
+  <form method="POST" class="mb-4" novalidate>
+    {% csrf_token %}
+  <div class="row">
+    <div class="col-6 ">
+
+    <p><label >First Name: </label>
+{{ form.xr_user_firstname |add_class:'form-control' }}</p>
+</div>
+<div class="col-6 ">
+    <label >Last Name: </label>
+    {{ form.xr_user_lastname |add_class:'form-control' }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-3 ">
+    <p>  <label >XR User Status: </label>
+    {{ form.xr_user_status |add_class:'form-control' }}</p>
+    </div>
+  <div class="col-9 ">
+
+<p>  <label >Email Address: </label>
+{{ form.xr_user_email|add_class:'form-control' }}</p>
+</div>
+</div>
+
+<div class="row">
+
+</div>
+<br>
+   <button type="submit" class="btn btn-success">Submit</button>
+   <a href="{% url 'client_pages' company.orgid %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+</form>
+</div>
+<div class="col-4">
+    <div class="card mb-3 side-card">
+  <div class="card-header"><strong>Current Information</strong></div>
+  <div class="card-body">
+
+    <p class="card-text"><strong>Company Name:</strong> {{ company.cname}}</p>
+    <p><strong>Contact Person: </strong>{{ company.poc_firstname }} {{ company.poc_lastname }}</p>
+    <p><strong>Email:</strong> {{ company.poc_email}}</p>
+    <p><strong>Client Status:</strong><strong><span class="{% if company.client_status == 'ACTIVE' %} active-color {% elif company.client_status == 'INACTIVE' %} inactive-color {% endif %}"> {{ company.client_status}}</span></strong> </p>
+    <p><strong>Arcade Access Status:</strong><strong><span class="{% if company.xr_access_status == 'ACTIVE' %} active-color {% elif company.xr_access_status == 'INACTIVE' %} inactive-color {% endif %}"> {{ company.xr_access_status}}</span></strong></p>
+    <p><strong>Custom Deliverables:</strong><strong><span class="{% if company.custom_deliverables == 'YES' %} active-color {% elif company.custom_deliverables == 'NO' %} inactive-color {% endif %}"> {{company.custom_deliverables}}</span></strong> </p>
+    <p><strong>Syndicated Reports:</strong><strong><span class="{% if company.syndicated_reports == 'YES' %} active-color {% elif company.syndicated_reports == 'NO' %} inactive-color {% endif %}">  {{ company.syndicated_reports}}</span></strong></p>
+
+    </div>
+  </div>
+  </div>
+</div>
+</div>
+{% endblock %}

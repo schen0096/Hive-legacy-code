@@ -1,0 +1,42 @@
+{% extends 'base.html' %}{% block foo %}{% include 'navbar.html'%}{% endblock %}{% load user_tags %}{% load static %}
+{% block title %}Hive Argus{% endblock %}{% block breadcrumb %}
+<li class="breadcrumb-item active">
+  <a href="{% url 'home' %}">Home</a>
+</li>
+<li class="breadcrumb-item active" >
+ <a href="{% url 'argushome' %}"> Argus </a>
+</li>
+<li class="breadcrumb-item active">
+  Duplicate Title Level Check
+</li>
+{% endblock %}
+{% block content%}
+<h5 align="center">Duplicate Title Level</h5>
+<div class="table-responsive">
+    <table class='table table-striped'>
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>Segment</th>
+          <th>Platform</th>
+          <th>Region</th>
+          <th>Month</th>
+          <th>Year</th>
+          <th>Row Count</th>
+        </tr>
+      </thead>
+    {% for r in table %}
+    <tr>
+    <td>{{ r.title }}</td>
+    <td>{{ r.segment }}</td>
+    <td>{{ r.platform }}</td>
+    <th>{{r.region}}</th>
+    <td>{{ r.MONTH }}</td>
+    <td>{{ r.YEAR }}</td>
+    <td>{{ r.row_count}}</td>
+
+    </tr>
+    {% endfor %}
+    </table>
+    </div>
+{% endblock %}

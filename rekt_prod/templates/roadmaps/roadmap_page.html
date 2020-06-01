@@ -1,0 +1,19 @@
+{% extends 'base.html' %}{% block foo %}{% include 'navbar.html'%}{% endblock %}{% load user_tags %}{% load static %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active">
+  <a href="{% url 'home' %}">Home</a>
+</li>
+<li class="breadcrumb-item"><a href="{% url 'roadmap_list'%}">Roadmaps</a></li>
+<li class="breadcrumb-item active" >
+  {{roadmap.roadmap_title}} Roadmap
+</li>
+{% endblock %}
+{% block content%}
+<div>
+        <h4><a href="{{ roadmap.roadmap_url }}" target="_blank">{{roadmap.roadmap_title}}  Roadmap</a></h4>
+        {% if request.user|has_group:'Roadmaps'%}
+        <div class="float-right"><a href="{% url 'edit_roadmap' roadmap.pk %}"><button class="btn btn-primary">Edit Roadmap</button></a></div>
+        {% endif %}
+        <iframe src="{{ roadmap.roadmap_url }}" width="1115" height="900"> </iframe>
+</div>
+{% endblock %}

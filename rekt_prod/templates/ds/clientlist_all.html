@@ -1,0 +1,151 @@
+{% extends 'base2.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load user_tags %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item">Data Schedule</a></li>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="table-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <form class="form-inline" method="GET" action="{% url 'searchCompany' %}">
+          <input name="q" value="{{ request.GET.q }}" class="form-control mr-sm-2 client-search-input" type="search" placeholder="Search..." aria-label="Search">
+          <button class="btn btn-success my-2 my-sm-0 client-search-btn" type="submit">Search</button>
+        </form>
+      </div>
+
+      <div class="col">
+        {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+        <div class="float-right">   &nbsp<a href="{% url 'new_company' %}"
+             class="btn btn-primary client-btn"
+             role="button">Add New Client</a></div>
+        {% endif %}
+          <div class="float-right"> &nbsp<a href="{% url 'clientlist' %}"class="btn btn-warning client-btn"role="button">Hide Inactive</a></div>
+          <div class="float-right"><a href="{% url 'expiring_account' %}"><button type="button" class="btn btn-dark client-btn">Expiring Account</button></a></div>
+      </div>
+    </div>
+  </div>
+  <table class="table superdata-link clients-table">
+      <thead class="thead-light">
+
+    <br>
+        <tr>
+          <th class="ds-border-left">Company Name</th>
+          <th>Status</th>
+          <th>Arcade Start Date</th>
+          <th class="ds-border-right">Arcade End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for company in companys %}
+          <tr class="first-row {{ company.poc_email }} {{ company.orgid }} {{company.num_user}}">
+            <td class ="ds-border-left">
+              <div id="company-name-div">
+                <a href="{%url 'client_pages' company.orgid %}" >{{ company.cname }}</a>
+              <div>
+            </td>
+            <td class="client-status">
+              <div id="company-client-status">
+                {{ company.client_status }}
+              </div>
+            </td>
+            <td>
+              <div id="company-start-date">
+                {% for date in latest %}
+                {% if date.company_id == company.company_id %}
+                {{ date.latest }}
+                {% endif %}
+                {% endfor %}
+              </div>
+             </td>
+             <td class="ds-border-right">
+               <div id="company-end-date">
+                 {% for date2 in latest2 %}
+                 {% if date2.company_id == company.company_id %}
+                 {{ date2.latest }}
+                 {% endif %}
+                 {% endfor %}
+                 <div id="dropdown-arrow">
+                   <i class="fas fa-angle-down"></i>
+                 </div>
+               </div>
+             </td>
+           </tr>
+           <!-- Making a invisible row to provide spacing between rows
+                with same information because the sorting library being used
+                sorts by content or td(string, integer, etc) inside any row (empty or not)
+              -->
+          <tr class="placeholder-row">
+            <td>{{company.cname}}</td>
+            <td>{{company.client_status}}</td>
+            <td>
+              {% for date in latest %}
+              {% if date.company_id == company.company_id %}
+                 {{ date.latest }}
+               {% endif %}
+                 {% endfor %}
+             </td>
+             <td>
+               {% for date2 in latest2 %}
+               {% if date2.company_id == company.company_id %}
+               {{ date2.latest }}
+               {% endif %}
+               {% endfor %}
+              </td>
+          </tr>
+          <!-- End of Row -->
+    {% endfor %}
+  </tbody>
+
+    </table>
+    <div class="superdata-link d-flex justify-content-center">
+    {% if companys.has_other_pages %}
+    <ul class="pagination" >
+      {% if companys.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ companys.previous_page_number }}">Previous</a>
+      </li>
+      {% else %}
+              <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+              </li>
+        {% endif %}
+        {% for page_num in companys.paginator.page_range %}
+                {% if companys.number == page_num %}
+                  <li class="page-item active">
+                    <span class="page-link">
+                      {{ page_num }}
+                      <span class="sr-only">(current)</span>
+                    </span>
+                  </li>
+                {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+
+              {% if companys.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ companys.next_page_number }}">Next</a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link">Next</span>
+                </li>
+              {% endif %}
+            </ul>
+        {% endif %}
+      </div>
+
+  <div class="superdata-link">
+    <p>To learn more about this feature, please contact  <a href="{% url 'team_member' username='chen.ke' %}" target="_blank">Chen Ke</a></p>
+</div>
+  {% endblock %}

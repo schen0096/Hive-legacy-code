@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Start a Interaction Topic{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'clientlist' %}">Data Schedule</a></li>
+  <li class="breadcrumb-item active"><a href="{% url 'client_pages' company.orgid %}">{{ company.cname }}</a></li>
+  <li class="breadcrumb-item active">New Client Interaction</li>
+
+{% endblock %}
+{% block content %}
+<h3> Add a New Interaction </h3>
+<br>
+<form method="POST">
+    {% csrf_token %}
+
+{% for field in form %}
+<div class="col-9">
+  <p>{{ field.label_tag }}
+  {% render_field field class="form-control" %}</p>
+</div>
+
+
+
+
+  {% endfor %}
+
+<br>
+  <div class="col-9"><button type="submit" class="btn btn-success">Submit</button>
+  <a href="{% url 'client_pages' company.orgid %}" class="btn btn-outline-secondary" role="button">Cancel</a></div>
+  </form>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% load static %}<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="google" content="notranslate">
+   <meta http-equiv="Content-Language" content="en">
+   <title>{% block title %}SuperData Hive{% endblock %}</title>
+   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+   <link rel="stylesheet" href="{% static 'css/website.css' %}">
+   <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
+   <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+   <script src="{% static 'js/popper.min.js' %}"></script>
+   <script src="{% static 'js/bootstrap.min.js' %}"></script>
+   <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+   <script src="https://kit.fontawesome.com/f8efacd59a.js" crossorigin="anonymous"></script>
+   <script defer src="{% static 'js/homepage.js' %}"></script>
+
+   <style type="text/css">
+      a:link {
+      text-decoration: none;
+      }
+    </style>
+ </head>
+
+ <div >
+    {% block foo %}
+    {% endblock %}
+   </div>
+
+   <ol class="breadcrumb my-4">
+     <!-- Just want to center links in a container but not the whole div itself -->
+     <div class="container">
+       {% block breadcrumb %}
+       {% endblock %}
+     </div>
+
+   </ol>
+
+ <div class="container">
+
+    {% block content %}
+    {% endblock %}
+  </div>
+
+</html>

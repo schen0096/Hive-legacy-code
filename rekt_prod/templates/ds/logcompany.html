@@ -1,0 +1,174 @@
+{% extends 'base2.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+
+  <li class="breadcrumb-item active"><a href="{% url 'logtable' %}">Data Schedule Log</li></a>
+  <li class="breadcrumb-item active">{{ oid.orgid_value }}</li>
+{% endblock %}
+
+{% block content %}
+
+
+<h3>Company Log</h3>
+<div style="overflow-x:auto;">
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th>Update Time</th>
+      <th>Update By</th>
+      <th>Company</th>
+      <th>Contact Person</th>
+      <th class="sorter-false filter-false">Email</th>
+      <th>Client Status</th>
+      <th>Arcade Access</th>
+      <th>Deliverables</th>
+      <th>Reports</th>
+      <th>Arcade ID</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for c in company %}
+  <tr>
+    <td>{{ c.time|date:"n/j/y G:i" }}
+    </td>
+    <td>
+      {{ c.updated_by }}
+    </td>
+  <td>
+    {{ c.cname }}
+  </td>
+
+  <td>
+    {{ c.poc_firstname}} {{ c.poc_lastname}}
+  </td>
+  <td>
+    {{ c.poc_email }}
+  </td>
+  <td>
+  <span class="{% if c.client_status == 'ACTIVE' %} active-color {% elif c.client_status == 'INACTIVE' %} inactive-color {% endif %}">  {{ c.client_status}} </span>
+  </td>
+  <td>
+    <span class="{% if c.arcade_access_status == 'ACTIVE' %} active-color {% elif c.arcade_access_status == 'INACTIVE' %} inactive-color {% endif %}">
+    {{ c.arcade_access_status }}</span>
+  </td>
+  <td>
+    <span class="{% if c.custom_deliverables == 'YES' %} active-color {% elif c.custom_deliverables == 'NO' %} inactive-color {% endif %}">
+    {{ c.custom_deliverables }}</span>
+  </td>
+  <td>
+    <span class="{% if c.syndicated_reports == 'YES' %} active-color {% elif c.syndicated_reports == 'NO' %} inactive-color {% endif %}">
+    {{ c.syndicated_reports }}</span>
+  </td>
+
+  <td>
+    {{ c.arcade_id }}
+  </td>
+  <td>
+    {{ c.log_notes}}
+  </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+
+<h3> Arcade User Log</h3>
+<div style="overflow-x:auto;">
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th>Update Time</th>
+      <th>Update By</th>
+      <th>Arcade ID</th>
+      <th>Name</th>
+      <th class="sorter-false filter-false">Email</th>
+      <th>Status</th>
+      <th>Notes</th>
+    </tr>
+
+  </thead>
+  {% for a in auser %}
+  <tr>
+    <td>{{ a.time|date:"n/j/y G:i" }}
+    </td>
+    <td>
+      {{ a.updated_by }}
+    </td>
+    <td>
+      {{ a.arcade_user_id }}
+    </td>
+    <td>
+      {{ a.arcade_user_firstname }} {{ a.arcade_user_lastname }}
+    </td>
+    <td>
+      {{ a.arcade_user_email }}
+    </td>
+    <td>
+      <span class="{% if a.aracde_user_status == 'ACTIVE' %} active-color {% elif a.aracde_user_status == 'INACTIVE' %} inactive-color {% endif %}">
+      {{ a.aracde_user_status }}</span>
+    </td>
+    <td>{{ a.log_notes }}</td>
+</tr>
+
+    {% endfor %}
+
+  </table>
+</div>
+
+  <h3>Subscription Log</h3>
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>Update Time</th>
+        <th>Update By</th>
+        <th>Subscription Start</th>
+        <th>Subscription End</th>
+        <th>Notes</th>
+      </tr>
+
+    </thead>
+    {% for h in history%}
+    <tr>
+      <td>{{ h.time|date:"n/j/y G:i" }}</td>
+      <td>{{ h.updated_by }}</td>
+      <td>{{ h.subscription_start }}</td>
+      <td>{{ h.subscription_end }}</td>
+      <td><span class="{% if h.log_notes == 'Delete' %} red {% endif %}">{{ h.log_notes }}</span</td>
+
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h3>Client Interaction Log</h3>
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th>Update Time</th>
+        <th>User</th>
+        <th>Contact By</th>
+        <th>Dates of Contact</th>
+        <th class="sorter-false filter-false">Notes</th>
+        <th>Log Notes</th>
+      </tr>
+
+    </thead>
+
+    {% for i in interaction %}
+    <tr>
+      <td>{{ i.time|date:"n/j/y G:i" }}</td>
+      <td>{{ i.updated_by }}</td>
+      <td>{{ i.userid }}</td>
+      <td>{{ i.dates_of_last_contact}}</td>
+      <td>{{ i.notes }}</td>
+      <td><span class="{% if i.log_notes == 'Delete' %} red {% endif %}">{{ i.log_notes }}</span></td>
+    </tr>
+    {% endfor %}
+
+  </table>
+
+{% endblock %}

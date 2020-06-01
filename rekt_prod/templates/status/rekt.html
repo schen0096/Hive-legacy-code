@@ -1,0 +1,288 @@
+{% extends 'base3.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item active">REKT</li>
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .popover{
+        max-width: 42%;
+    }
+  </style>
+
+
+<div id="UploadSchedule" hidden>
+    Leading up to deliverables, data uploads will start once the files are received.
+    However, during deliverables week data uploads will follow a strict schedule.
+    Uploads will occur every <strong>1.5</strong> hours starting at <strong>10:30 AM</strong> with the last upload being at <strong>6 PM</strong>.
+    <br>
+    <br>
+    <table class='table'>
+        <tbody>
+        <strong><tr>
+          <td>1st Upload</td>
+        <td>10:30 AM</td>
+        </tr>
+        <tr>
+          <td>2nd Upload</td>
+          <td>12:00 PM</td>
+        </tr>
+        <tr>
+          <td>3rd Upload</td>
+          <td>1:30 PM</td>
+        </tr>
+        <tr>
+            <td>4th Upload</td>
+            <td>3:00 PM</td>
+          </tr>
+          <tr>
+              <td>5th Upload</td>
+              <td>4:30 PM</td>
+            </tr>
+            <tr>
+                <td>6th Upload</td>
+                <td>6:00 PM</td>
+              </tr></strong>
+            </tbody>
+            </table>
+</div>
+
+<script>
+  $(document).ready(function(){
+      $('[data-toggle="popover"]').popover({
+        container: 'body',
+        content: $('#UploadSchedule').html(),
+        html: true
+      });
+  });
+  </script>
+<div class="upload-status-text">
+  <h1 class="status-header-text"><strong> &nbspArcade Upload Status</strong></h1>
+
+
+  <a href="#" data-toggle="popover" title="Upload Schedule" data-trigger="focus" data-placement="bottom">
+      <button type="button" class="earlyaccess-button btn btn-outline-dark btn-sm">EarlyAccess Schedule</button>
+  </a>
+</div>
+<br>
+<div class="container">
+<div class="card-deck">
+{% if connectedToLab == True %}
+  <div class="card text-dark border-secondary round-corner-card" ><a class="nounderline" href="{% url 'current'%}">
+      <div class="card-body"><h4 align="center">EarlyAccess Upload Progress</h4>
+        <div><h1>{{eaUploadType}} Upload: {{eaCount}}/{{eaTotalNum}}</h1></div>
+        <div class="progress">
+          <div id="eaDiv" class="{% if eaCount == eaTotalNum and eaCurrent.time_elapsed is not None %}
+          progress-bar progress-bar-striped bg-warning
+          {% else %} progress-bar progress-bar-animated progress-bar-striped bg-warning
+          {% endif %} " role="progressbar" style="width:{{ eaPercent }}%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <br>
+        <div>
+          {% if eaCount == eaTotalNum and eaCurrent.time_elapsed is not None %}
+            Completed
+          {% else %}
+           Current Process:  {{ eaCurrent.current_process }}
+          {% endif %}
+        </div>
+        <div>
+            {% if  eaCount == eaTotalNum and eaCurrent.time_elapsed is not None %}
+            Total Duration: {{ eaElapsed }}
+            {% else %}
+            Time Elapsed: {{ eaElapsed }}
+            {% endif %}
+          </div>
+    </div></a>
+</div>
+{% else %}
+<div class="card text-dark border-secondary round-corner-card" >
+   <div class="card-body">
+     <br>
+<h1 align="center">Failed to connect to LabRDS</h1>
+</div>
+</div>
+{% endif %}
+{% if connectedToTab == True %}
+<a class="nounderline" href="{% url 'liveprocess'%}" >
+  <div class="card text-dark border-secondary round-corner-card" >
+   <div class="card-body"><h4 align="center">Live Upload Progress</h4>
+    <div><h1> {{liveUploadType}} Upload: {{liveCount}}/{{liveTotalNum}}</h1></div>
+    <div class="progress">
+        <div id="liveDiv" class="{% if liveCount == liveTotalNum and liveCurrent.time_elapsed is not None %}
+        progress-bar progress-bar-striped bg-success {% else %}
+        progress-bar progress-bar-animated progress-bar-striped bg-success
+        {% endif %} " role="progressbar" style="width:{{ livePercent }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    <br>
+    <div>{% if liveCount == liveTotalNum and liveCurrent.time_elapsed is not None %}
+      Completed
+    {% else %}
+      Current Process:  {{ liveCurrent.current_process }}
+    {% endif %}
+  </div>
+    <div>{% if liveCount < liveTotalNum %}
+      Time Elapsed: {{ liveElapsed }}
+    {% else %}
+      Total Duration: {{ liveElapsed }}
+    {% endif %}
+     </div>
+</div>
+ </a>
+{% else %}
+<div class="card text-dark border-secondary round-corner-card" >
+  <div class="card-body">
+    <br>
+  <h1 align="center">Failed to connect to ArcadeRDS</h1>
+  </div>
+</div>
+{% endif %}
+</div>
+</div>
+<br>
+<!-- <div class="card-deck">
+<div class="card bg-light border-secondary text-dark"><a href="{% url 'sandboxea'%}">
+  <div class="card-body">
+    <div align="center"><strong>EA Sandbox Transfer</strong></div>
+  </div></a>
+</div>
+
+<div class="card bg-light border-secondary text-dark"><a href="{% url 'eahistory' %}">
+  <div class="card-body">
+    <div align="center"><strong>EA Upload History</strong></div>
+  </div></a>
+</div>
+<div class="card bg-light border-secondary text-dark"><a href="{% url 'sandboxlive'%}">
+  <div class="card-body">
+    <div align="center"><strong>Live Sandbox Transfer</strong></div>
+  </div></a>
+</div>
+<div class="card bg-light border-secondary text-dark"><a href="{% url 'livehistory' %}">
+  <div class="card-body">
+    <div align="center"><strong>Live Upload History</strong></div>
+  </div></a>
+</div>
+
+</div> -->
+
+
+<!--
+{% if slackStatus == 'ok' %}
+
+<div class="alert alert-success border-secondary" role="alert">
+<img src="/static/image/Slack_MarkLogo.png" alt="slackLogo" width="45" height="45"> <font size="5"><strong>Slack Status: Slack is up and running </strong></font>
+<h4>Slack Status: Slack is up and running</h4>
+</div>
+{% else %}
+<div class="alert alert-warning border-secondary" role="alert">
+<h4> Slack Status: {{ slackType|capfirst }} - {{ slackTitle }}</h4>
+</div>
+{% endif %}
+-->
+<div class="upload-status-text"><h1 align="left">System Status</h1></div>
+<br>
+<div class="card-deck">
+<div class="card text-dark border-secondary round-corner-card">
+    <table class="table">
+    <tbody>
+    {% for s in webStatus %}
+      <tr>
+        <td>{{s.website.website_display }}</td>
+        {% if connectedToArena == True %}
+          {% if s.percent_loss < 40 %}
+          <td align="right"><span class="active-color"><strong>Operational</strong></span></td>
+          {% elif s.percent_loss < 70 %}
+          <td align="right"><span class="inactive-color"><strong> Degraded Performance</strong></span></td>
+          {% else %}
+          <td align="right"><span class="inactive-color"><strong>Major Outage</strong></span></td>
+          {% endif %}
+        {% else %}
+          {% if s.website.id == 3 or s.perccent_loss > 70 %}
+          <td align="right"><span class="inactive-color"><strong>Major Outage</strong></span></td>
+          {% else %}
+          <td align="right"><span class="active-color"><strong>Operational</strong></span></td>
+          {% endif %}
+        {% endif %}
+      </tr>
+
+      {% endfor %}
+
+      <tr>
+        <td>Slack</td>
+        {% if slackStatus == 'ok' %}
+        <td align="right"><span class="active-color"><strong>Operational</strong></span></td>
+        {% else %}
+        <td align="right"><span class="inactive-color"><strong>{{ slackType|capfirst }}</strong></span></td>
+        {% endif %}
+      </tr>
+
+    </tbody>
+      </table>
+</div>
+<div class="card text-dark border-secondary round-corner-card">
+  <table class="table">
+    <tbody>
+        <tr>
+            <td>SupremeRDS</td>
+            {% if connectedToSuper == True %}
+            <td align="right"><span class="active-color"><strong>Operational</strong></span></td>
+            {% else %}
+            <td align="right"><span class="inactive-color"><strong>Major Outage</strong></span></td>
+            {% endif %}
+          </tr>
+      <tr>
+        <td>LabRDS</td>
+        {% if connectedToLab == True %}
+	<td align="right"><span class="active-color"><strong>Operational</strong></span></td>
+        {% else %}
+        <td align="right"><span class="inactive-color"><strong>Major Outage</strong></span></td>
+        {% endif %}
+      </tr>
+      <tr>
+          <td>Arena Backend DB</td>
+          {% if connectedToArena == True %}
+          <td align="right"><span class="active-color"><strong>Operational</strong></span></td>
+          {% else %}
+          <td align="right"><span class="inactive-color"><strong>Major Outage</strong></span></td>
+          {% endif %}
+        </tr>
+        <tr>
+          <td>XR DB</td>
+          {% if connectedToXR == True %}
+          <td align="right"><span class="active-color"><strong>Operational</strong></span></td>
+          {% else %}
+          <td align="right"><span class="inactive-color"><strong>Major Outage</strong></span></td>
+          {% endif %}
+        </tr>
+      <tr>
+          <td>Arcade Backend DB</td>
+          {% if connectedToTab == True %}
+          <td align="right"><span class="active-color"><strong>Operational</strong></span></td>
+          {% else %}
+          <td align="right"><span class="inactive-color"><strong>Major Outage</strong></span></td>
+          {% endif %}
+        </tr>
+        <tr>
+          <td>Arcade Frontend</td>
+          {% if connectedToTab == True %}
+          <td align="right"><span class="active-color"><strong>Operational</strong></span></td>
+          {% else %}
+          <td align="right"><span class="inactive-color"><strong>Major Outage</strong></span></td>
+          {% endif %}
+        </tr>
+
+    </tbody>
+  </table>
+</div>
+</div>
+<br>
+<div class="superdata-link">
+<p>To learn more about this feature, please contact <a href="{% url 'team_member' username='puhong' %}" target="_blank">Puhong Zhu</a></p>
+</div>
+{% endblock %}
+

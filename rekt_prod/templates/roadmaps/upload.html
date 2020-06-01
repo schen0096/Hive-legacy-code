@@ -1,0 +1,21 @@
+{% extends 'base.html' %}{% block foo %}{% include 'navbar.html' %}{% endblock %}
+{% load widget_tweaks %}{% block breadcrumb %}
+  <li class="breadcrumb-item active">Upload Roadmap</li>
+{% endblock %}
+
+{% block content %}
+<h3>Upload Arcade Weekly Roadmap</h3>
+<br>
+
+<style>
+  div.a {
+    width:60%;
+  }
+</style>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <p>{{form.roadmap}}</p>
+  <button type="submit" class="btn btn-success">Submit</button>
+</form>
+{% endblock %}

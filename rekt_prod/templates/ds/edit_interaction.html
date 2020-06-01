@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Edit Client Interaction{% endblock %}
+
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'clientlist' %}">Data Schedule</a></li>
+<li class="breadcrumb-item"><a href="{% url 'client_pages' interaction.company_id.orgid %}">{{ interaction.company_id.cname }}</a></li>
+  <li class="breadcrumb-item active">Edit Client Interaction</li>
+{% endblock %}
+
+{% block content %}
+<h3>Edit Client Interaction</h3>
+  <form method="POST" class="mb-4" novalidate>
+    {% csrf_token %}
+
+    <div class="col-9">
+      <p><label> Dates of Last Contact:</label>
+   {{ form.dates_of_last_contact |add_class:'form-control' }}</p>
+ </div>
+ <div class="col-9">
+   <p><label> Notes:</label>
+     {{ form.notes |add_class:'form-control' }}</p>
+   </div>
+    <div class="col-9"><button type="submit" class="btn btn-success">Save changes</button>
+    <a href="{% url 'client_pages' interaction.company_id.orgid %}" class="btn btn-outline-secondary" role="button">Cancel</a></div>
+  </form>
+{% endblock %}

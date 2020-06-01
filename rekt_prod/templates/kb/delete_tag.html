@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Add Tag{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'kb'%}">Knowledge Base</a></li>
+<li class="breadcrumb-item"><a href="{% url 'faq' c.name %}">{{ c.name |capfirst }}</a></li>
+<li class="breadcrumb-item"><a href="{% url 'answer' c.name question.pk %}">{{ question.subject |capfirst |truncatechars:20 }}</a></li>
+<li class="breadcrumb-item">Delete tag</li>
+{% endblock %}
+{% block content %}
+<h3>Delete Tag</h3>
+<br>
+
+<form method="POST" >
+  {% csrf_token %}
+
+        <select class="selectpicker" data-live-search="true" data-width="75%" name="tags" title="Choose the tag you want to delete">
+            {% for t in tag %}
+          <option>{{ t.tag_name}} </option>
+            {% endfor %}
+        </select>
+    <br>
+    <br>
+    <div class="container">
+
+        <button type="submit" class="btn btn-danger">Delete Tag</button>
+      <a href="{% url 'answer' c.name question.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+      <br>
+
+        </form>
+          </div>
+
+{% endblock %}

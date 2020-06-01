@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item">Edit Profile Page</li>
+{% endblock %}
+{% block content%}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="container">
+    <div class="row">
+    <div class="col-5">
+        <h2>{{request.user.first_name |capfirst}} {{request.user.last_name |capfirst}}</h2>
+    <label>Position</label>
+    <p>{{profile_form.position|add_class:'form-control'}}</p>
+    <label>Phone</label>
+    <p>{{profile_form.phone|add_class:'form-control'}}</p>
+    <label>About Me</label>
+    <p>{{profile_form.description|add_class:'form-control'}}</p>
+    <label>Twitter</label>
+    <p>{{profile_form.twitter_id|add_class:'form-control'}}</p>
+    <label>Instagram</label>
+    <p>{{profile_form.instagram_id|add_class:'form-control'}}</p>
+    </div>
+    <div class="col-6">
+        <h4>Gaming Platform</h4>
+    <label>Steam</label>
+    <p>{{profile_form.steam_id|add_class:'form-control'}}</p>
+    <label>Twitch</label>
+    <p>{{profile_form.twitch_id|add_class:'form-control'}}</p>
+    <label>Epic</label>
+    <p>{{profile_form.epic_id|add_class:'form-control'}}</p>
+    <label>Switch</label>
+    <p>{{profile_form.switch_id|add_class:'form-control'}}</p>
+    <label>Blizzard</label>
+    <p>{{profile_form.blizzard_id|add_class:'form-control'}}</p>
+    <label>Riot/League of Legend</label>
+    <p>{{profile_form.riot_id|add_class:'form-control'}}</p>
+    <label>Playstation</label>
+    <p>{{profile_form.playstation_id|add_class:'form-control'}}</p>
+    <label>Discord</label>
+    <p>{{profile_form.discord_id|add_class:'form-control'}}</p>
+    </div>
+</div>
+</div>
+<br>
+<br>
+<button type="submit" class="btn btn-success">Submit</button>
+
+{{currentProfile.photo}}
+<a href="{% url 'profile_page'%}" class="btn btn-outline-secondary" role="button">Cancel</a>
+</form>
+<br>
+<br>
+<!-- <img src={{photo.upload_photo.url}} width="200" height="200"></img>
+<p>{{ photo_form.as_p }}</p> -->
+{% endblock%}

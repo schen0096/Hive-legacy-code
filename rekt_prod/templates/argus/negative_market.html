@@ -1,0 +1,42 @@
+{% extends 'base.html' %}{% block foo %}{% include 'navbar.html'%}{% endblock %}{% load user_tags %}{% load static %}
+{% block title %}Hive Argus{% endblock %}{% block breadcrumb %}
+<li class="breadcrumb-item active">
+  <a href="{% url 'home' %}">Home</a>
+</li>
+<li class="breadcrumb-item active" >
+ <a href="{% url 'argushome' %}"> Argus </a>
+</li>
+<li class="breadcrumb-item active">
+  Negative Market Level Check
+</li>
+{% endblock %}
+{% block content%}
+<h5 align="center">Negative Market Level</h5>
+<div class="table-responsive">
+    <table class='table table-striped'>
+        <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Segment</th>
+          <th>Month</th>
+          <th>Year</th>
+          <th>Region</th>
+          <th>Platform</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+    {% for r in table %}
+    <tr>
+    <td>{{ r.metric }}</td>
+    <td>{{ r.segment }}</td>
+    <td>{{ r.month }}</td>
+    <td>{{ r.year }}</td>
+    <td>{{ r.region }}</td>
+    <td>{{ r.platform }}</td>
+    <td>{{ r.value}}</td>
+
+    </tr>
+    {% endfor %}
+    </table>
+    </div>
+{% endblock %}

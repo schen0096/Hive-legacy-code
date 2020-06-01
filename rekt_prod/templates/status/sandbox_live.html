@@ -1,0 +1,27 @@
+{% extends 'base3.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item active"><a href="{% url 'rekthome' %}">REKT</a></li>
+<li class="breadcrumb-item active">Live Sandbox Transfer</li>
+{% endblock %}
+
+{% block content%}
+<table class='table table-striped'>
+<thead>
+  <tr>
+      <th>Timestamp</th>
+      <th>Log Text</th>
+    </tr>
+</thead>
+{% for d in table %}
+<tr>
+    <td>{{ d.time_stamp }}</td>
+    <td>{{ d.log_text }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Add new aracde subscription history{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'clientlist' %}">Data Schedule</a></li>
+  <li class="breadcrumb-item active"><a href="{% url 'client_pages' company.orgid %}">{{ company.cname }}</a></li>
+  <li class="breadcrumb-item active">New XR Subscription History</li>
+
+{% endblock %}
+{% block content %}
+
+<h3>Add XR Subsciption History</h3>
+<br>
+  <form method="POST" class="mb-4" novalidate>
+    {% csrf_token %}
+<div class="container">
+  <div class="row">
+
+<div class="col-3">
+  <p><label> Subscription Start Date:</label>
+  {{ form.xr_subscription_start |add_class:'form-control'}}</p>
+
+
+</div>
+<div class="col-3">
+  <p><label> Subscription End Date:</label>
+  {{ form.xr_subscription_end |add_class:'form-control'}}</p>
+
+</div>
+<div class="col-3">
+    <p><label> XR Tier:</label>
+    {{ form.xr_tier |add_class:'form-control'}}</p>
+
+  </div>
+
+
+
+
+
+</div>
+</div>
+<br>
+&nbsp  <button type="submit" class="btn btn-success">Submit</button>
+<a href="{% url 'client_pages' company.orgid %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+  </form>
+
+{% endblock %}

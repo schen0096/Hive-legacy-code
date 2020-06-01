@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load user_tags %}
+{% block title %}
+Roadmaps
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+  <li class="breadcrumb-item">Roadmaps</li>
+{% endblock %}
+
+{% block content %}
+
+
+<br>
+<h2>Roadmap List</h2>
+{% if request.user|has_group:'Roadmaps'%}
+<div class="float-right"><a href="{% url 'new_roadmap'%}"><button class="btn btn-primary">Add Roadmap</button></a></div>
+{% endif %}
+<div class="superdata-link">
+  <table class="table table-bordered">
+      <tbody>
+      {% for roadmap in roadmaps %}
+      <tr>
+        <td><a href="{% url 'roadmap_page' roadmap.pk %}">{{ roadmap.roadmap_title }}</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+   </div>
+   <br>
+   <div class="superdata-link">
+   <p>To learn more about this feature, please contact  <a href="{% url 'team_member' username='alexis.augustin' %}" target="_blank">Alexis Augustin</a></p>
+</div>
+   {% endblock %}

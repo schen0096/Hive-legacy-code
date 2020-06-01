@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Edit Question{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'kb'%}">Knowledge Base</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'faq' c.name %}">{{ c.name |capfirst }}</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'answer' c.name question.pk %}">{{ question.subject |capfirst }}</a></li>
+  <li class="breadcrumb-item active">Edit Question</li>
+
+{% endblock %}
+{% block content %}
+<h3 align="center">Edit Question</h3>
+<br>
+<div class="container">
+<div class="row justify-content-center">
+<div class="card" style="width: 70%;">
+    <div class="card-header"><strong>Current Information</strong></div>
+    <div class="card-body">
+        {{ question.subject |capfirst }}
+        {% for ans in question.answer.all %}
+        <p>{{ ans.answer |safe}}</p>
+        {% endfor %}
+    </div>
+</div>
+</div>
+<br>
+<div class="row justify-content-center">
+<form method="POST">
+{% csrf_token %}
+{{ aform.media }}
+<label>Subject</label>
+<div>
+  {{ qform.subject |add_class:'form-control'  }}
+  </div>
+<br>
+<label>Answer</label>
+<br>
+  {{ aform.answer }}
+<br>
+      <button type="submit" class="btn btn-success">Save</button>
+      <a href="{% url 'answer' c.name question.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+      </form>
+</div>
+</div>
+{% endblock %}

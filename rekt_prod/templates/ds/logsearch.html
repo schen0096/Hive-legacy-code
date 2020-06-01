@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% block breadcrumb %}
+  <li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+  <li class="breadcrumb-item active"><a href="{% url 'logtable'%}">Data Schedule Log</a></li>
+  <li class="breadcrumb-item active">Search Results</li>
+{% endblock %}
+{% block content %}
+
+<table class="table superdata-link">
+    <tr>
+      <th>Organization ID</th>
+      <th>Company Name</th>
+    </tr>
+
+        <tbody>
+            {% for log in results %}
+            <tr>
+            <td><a href="{% url 'logcompany' log.orgid_value%}">{{ log.orgid_value }}</a></td>
+
+            <td> {% for x in log.company_log.all %}
+              {% if forloop.first %} {{x.cname}}{% endif %}{% endfor %}</td>
+            </tr>
+              {% endfor %}
+              </tbody>
+              </table>
+ {% endblock%}

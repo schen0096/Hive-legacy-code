@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load static %}
+
+{% block title %}Change Log{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'kb' %}">Knowledge Base</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'faq' latest.category_id.name %}">  {{latest.category_id.name|capfirst}}</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'answer' latest.category_id.name latest.faq_id.faq_id_value %}">{{latest.subject}}</a></li>
+  <li class="breadcrumb-item active">Change Log Source</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+<div class="row">
+<div class="float-right"><a href="{% url 'change_Log' latest.category_id.name latest.faq_id.faq_id_value %}"><button type="button" class="btn btn-warning">Original Content</button></a></div>
+</div>
+</div>
+<br>
+
+{% for log in questionLog %}
+<div class="card mb-2 border-dark">
+  <div class="card-header text-dark bg-light py-2 px-3">
+    <h3>{{ log.subject }}</h3>
+      {{ log.editor.username }}
+      <div>{{ log.last_updated }}</div>
+
+</div>
+
+<div class="superdata-link">
+  <div class="m-4">
+ {{ log.answer}}</div>
+</div>
+
+
+{{ faq_id}}
+
+</div>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}{% block foo %}{% include 'navbar.html'%}{% endblock %}{% load user_tags %}{% load static %}
+{% block title %}REKT Argus{% endblock %}{% block breadcrumb %}
+<li class="breadcrumb-item active">
+  <a href="{% url 'home' %}">Home</a>
+</li>
+<li class="breadcrumb-item active" >
+  Argus
+</li>
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<i class="fa fa-exclamation-triangle fa-4x" style="color:#DC143C"></i>
+<br>
+<br>
+<h1>Sorry, we cannot connect to LabRDS currently.</h1>
+{% endblock %}

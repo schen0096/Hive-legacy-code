@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Create New Tag{% endblock %}
+
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'kb'%}">Knowledge Base</a></li>
+<li class="breadcrumb-item">Create new tag</li>
+{% endblock %}
+
+{% block content %}
+<h3>Create a new tag</h3>
+<br>
+<div class="container">
+<form method="POST">
+        {% csrf_token %}
+<label>Tag Name</label>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-8">
+<p>{{ tagform.tag_name|add_class:'form-control'}}</p>
+</div>
+</div>
+
+<button type="submit" class="btn btn-success" >Submit</button>
+  <a href="{% url 'add_Tag' c.name question.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+  </form>
+</div>
+
+{% endblock %}

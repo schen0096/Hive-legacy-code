@@ -1,0 +1,372 @@
+{% extends 'base2.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load user_tags %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'clientlist' %}">Data Schedule</a></li>
+<li class="breadcrumb-item">{{ company.cname}}</li>
+{% endblock %}
+
+
+{% block content %}
+<!-- <h1 align="center"> {{ company.cname}} </h1> -->
+
+<div class="card mb-3 client-page round-corner-card" >
+
+  <div class="card-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <h1 class="company-name"><strong>{{ company.cname}}</strong></h1>
+          <span class="badge badge-light">{{company.company_label.label_name}}</span>
+        </div>
+
+        <div class="col-6 my-auto">
+          {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+          <div class="float-right edit-btn"> &nbsp  &nbsp<a href="{% url 'edit_company' company.pk %}" class="btn btn-sm " role="button">Edit</a></div>
+          {% endif %}
+          <div class="float-right check-log-btn"><a href="{% url 'logcompany' company.orgid %}" class="btn btn-sm" role="button">Check Log</a></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card-body">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p><strong>Contact Person: </strong>{{ company.poc_firstname }} {{ company.poc_lastname }}</p>
+          <p><strong>Email: </strong> {{ company.poc_email}}</p>
+          <p><strong>Arcade Client ID: </strong> {{ company.arcade_id }}</p>
+          <p><strong>Organization ID: </strong>{{ company.orgid }}</p>
+          <div class="superdata-link"><p><strong><a href="https://{{contractURL}}" target="_blank">Contract Link</a></strong></p></div>
+        </div>
+        <div class="col">
+          <p><strong>Client Status:</strong><strong><span class="{% if company.client_status == 'ACTIVE' %} active-color {% elif company.client_status == 'INACTIVE' %} inactive-color {% endif %}"> {{ company.client_status}}</span></strong></p>
+          <p><strong>Arcade Access Status:</strong><strong><span class="{% if company.arcade_access_status == 'ACTIVE' %} active-color {% elif company.arcade_access_status == 'INACTIVE' %} inactive-color {% endif %}"> {{ company.arcade_access_status}}</span></strong></p>
+          <p><strong>XR Status:</strong><strong><span class="{% if company.xr_status == 'ACTIVE' %} active-color {% elif company.xr_status == 'INACTIVE' %} inactive-color {% endif %}"> {{ company.xr_status}}</span></strong></p>
+          <p><strong>Custom Deliverables:</strong><strong><span class="{% if company.custom_deliverables == 'YES' %} active-color {% elif company.custom_deliverables == 'NO' %} inactive-color {% endif %}"> {{company.custom_deliverables}}</span></strong> </p>
+          <p><strong>Syndicated Reports:</strong><strong><span class="{% if company.syndicated_reports == 'YES' %} active-color {% elif company.syndicated_reports == 'NO' %} inactive-color {% endif %}">  {{ company.syndicated_reports}}</span></strong></p>
+          <p><strong>FTP Access:</strong> <strong><span class="{% if ftpStatus == 1 %} active-color {% else %} inactive-color {% endif %}">{% if ftpStatus == 1 %} YES{% else %} NO {% endif %} </span></strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- ARCADE CARD -->
+<div class="card mb-3 round-corner-card">
+  <div class="card-header">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <nav id="client-page-nav">
+              <h4>ARCADE</h4>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Arcade Accounts</a>
+              <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Subscriptions</a>
+              <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">History</a>
+            </div>
+          </nav>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ARCADE CARD TAB-->
+  <div class="tab-content" id="nav-tabContent">
+
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+      <div class="container mt-3 mb-1">
+        <div class="row">
+      <div class="col-7" align="right"><h5>Active Accounts: {{ count }}</h5></div>
+      <div class="col" align="right">
+          {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+          <a href="{% url 'new_account' company.orgid %}"
+          class="btn btn-primary btn-sm edit-btns"
+          role="button">Add</a>
+          {% endif %}
+</div>
+        </div>
+      </div>
+      <table class="table">
+        <thead >
+          <tr>
+            <th class="arcade-padder">Arcade ID</th>
+            <th>Status</th>
+            <th class="sorter-false filter-false">First Name</th>
+            <th class="sorter-false filter-false">Last Name</th>
+            <th class="sorter-false filter-false">Email Address</th>
+            {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+            <th class="sorter-false filter-false"> Edit</th>
+            {% endif %}
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in auser %}
+          <tr>
+            <td class="arcade-padder">
+              {{ user.arcade_user_id}}
+            </td>
+            <td align="left">
+              <strong><span class="{% if user.aracde_user_status == 'ACTIVE' %} active-color {% elif user.aracde_user_status == 'INACTIVE' %} inactive-color {% endif %}"> {{ user.aracde_user_status}}
+              </td>
+              <td>
+                {{ user.arcade_user_firstname}}
+              </td>
+              <td>
+                {{ user.arcade_user_lastname}}
+              </td>
+              <td>
+                {{ user.arcade_user_email }}
+              </td>
+              {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+              <td>
+                <a href="{% url 'edit_account' user.company_id.orgid user.pk %}" class="btn btn-info btn-sm edit-btns" role="button" >Edit</a>
+              </td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+    </div>
+
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+      <div class="arcade-tab pb-3">{% for sub in subList %}<div class="arcade-padder mt-3"> <h5>{{sub.subscription}}</h5> </div>{% endfor %}</div>
+
+    </div>
+    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <div class="container mt-3 mb-1">
+            <div class="row">
+                <div class="col-7" align="right"><h5>Subscription History</h5></div>
+                <div class="col" align="right">
+                    {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+                    <a href="{% url 'new_subscription' company.orgid %}"class="btn btn-primary btn-sm edit-btns" role="button">Add</a>
+                    {% endif %}
+                  </div>
+                  </div>
+                </div>
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th class="arcade-padder">Start Date</th>
+            <th>End Date</th>
+            {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+            <th class="sorter-false filter-false">Edit</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for history in history %}
+          <tr>
+            <td class="arcade-padder">
+              {{ history.subscription_start}}
+            </td>
+            <td>
+              {{ history.subscription_end}}
+            </td>
+            {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+            <td>
+              <a href="{% url 'edit_subscription' company.orgid history.pk %}" class="btn btn-info btn-sm edit-btns" role="button">Edit</a>
+            </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
+  <!-- XR DIMENSION CARD -->
+  <div class="card mb-3 round-corner-card">
+    <div class="card-header">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <nav id="client-page-nav">
+                <h4>XR Dimension</h4>
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#xr_user" role="tab" aria-controls="nav-home" aria-selected="true">XR Accounts</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#xr_tier" role="tab" aria-controls="nav-profile" aria-selected="false">Tiers</a>
+                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#xr_sub_history" role="tab" aria-controls="nav-contact" aria-selected="false">History</a>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="nav-tabContent">
+          <!-- XR DIMENSION ACCOUNTS-->
+      <div class="tab-pane fade show active" id="xr_user" role="tabpanel">
+        <div class="container mt-3 mb-1">
+          <div class="row">
+        <div class="col-7" align="right"><h5>Active Accounts: {{ XRUserCount}}</h5></div>
+        <div class="col" align="right">
+            {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+            <a href="{% url 'new_xr_account' company.orgid %}"
+            class="btn btn-primary btn-sm edit-btns"
+            role="button">Add</a>
+            {% endif %}
+  </div>
+          </div>
+        </div>
+        <table class="table">
+          <thead >
+            <tr>
+              <th class="arcade-padder">First Name</th>
+              <th>Last Name</th>
+              <th> Status</th>
+              <th class="sorter-false filter-false">Email Address</th>
+
+              {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+              <th class="sorter-false filter-false"> Edit</th>
+              {% endif %}
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in xr_users %}
+            <tr>
+              <td class="arcade-padder">
+                {{ user.xr_user_firstname}}
+              </td>
+              <td>
+                {{ user.xr_user_lastname}}
+              </td>
+              <td align="left">
+                <strong><span class="{% if user.xr_user_status == 'ACTIVE' %} active-color {% elif user.xr_user_status == 'INACTIVE' %} inactive-color {% endif %}"> {{ user.xr_user_status}}
+                </td>
+                <td>
+                  {{ user.xr_user_email }}
+                </td>
+                {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+                <td>
+                  <a href="{% url 'edit_xr_account' company.orgid user.pk %}" class="btn btn-info btn-sm edit-btns" role="button" >Edit</a>
+                </td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+      </div>
+      <!-- XR DIMENSION TIERS-->
+      <div class="tab-pane fade" id="xr_tier" role="tabpanel">
+        <div class="arcade-tab pb-3"><div class="arcade-padder mt-3">
+           <strong> {{xr_tiers}}</strong>
+      </div></div></div>
+
+      <!-- XR DIMENSION SUB HISTORY-->
+      <div class="tab-pane fade" id="xr_sub_history" role="tabpanel">
+          <div class="container mt-3 mb-1">
+              <div class="row">
+                  <div class="col-7" align="right"><h5>Subscription History</h5></div>
+                  <div class="col" align="right">
+                      {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+                      <a href="{% url 'new_xr_subscription' company.orgid %}"class="btn btn-primary btn-sm edit-btns" role="button">Add</a>
+                      {% endif %}
+                    </div>
+                    </div>
+                  </div>
+        <table class="table">
+          <thead class="thead-inverse">
+            <tr>
+              <th class="arcade-padder">Start Date</th>
+              <th>End Date</th>
+              {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+              <th class="sorter-false filter-false">Edit</th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for history in xr_histories %}
+            <tr>
+              <td class="arcade-padder">
+                {{ history.xr_subscription_start}}
+              </td>
+              <td>
+                {{ history.xr_subscription_end}}
+              </td>
+              {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+              <td>
+                <a href="{% url 'edit_xr_subscription' company.orgid history.xr_sub_id %}" class="btn btn-info btn-sm edit-btns" role="button">Edit</a>
+              </td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+
+
+
+
+
+  <div class="card mb-3 round-corner-card">
+    <div class="card-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <h5>CLIENT NOTES</h5>
+          </div>
+          <div class="col-sm-1">
+
+            <a href="{% url 'new_interaction' company.orgid %}"
+            class="btn btn-primary btn-sm edit-btns"
+            role="button">Add</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <table class="table">
+      <thead class="thead-inverse">
+        <tr>
+          <th class="arcade-padder" style="width: 18%">Date</th>
+          <th style="width : 15%">Name</th>
+          <th class="sorter-false filter-false">Notes</th>
+          <th class="sorter-false filter-false">Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for action in interaction %}
+        <tr>
+          <td class="arcade-padder">
+            {{ action.dates_of_last_contact }}
+          </td>
+          <td>
+            {{ action.user_id.username }}
+          </td>
+          <td>
+            {{ action.notes}}
+          </td>
+          <td>
+            {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+            <a href="{% url 'edit_interaction' company.orgid action.pk %}" class="btn btn-primary btn-sm edit-btns" role="button">Edit</a>
+            {% elif action.userid == user %}
+            <a href="{% url 'edit_interaction' company.orgid action.pk %}" class="btn btn-primary btn-sm edit-btns" role="button">Edit</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+

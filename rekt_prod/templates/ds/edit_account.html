@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block foo %}
+{% include 'navbar.html' %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block title %}Edit Arcade Account Information{% endblock %}
+
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><a href="{% url 'home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'clientlist' %}">Data Schedule</a></li>
+<li class="breadcrumb-item"><a href="{% url 'client_pages' account.company_id.orgid %}">{{ account.company_id.cname }}</a></li>
+  <li class="breadcrumb-item active">Edit Arcade Account</li>
+{% endblock %}
+
+{% block content %}
+
+<h3>Edit Arcade Account</h3>
+  <form method="POST" class="mb-4" novalidate>
+    {% csrf_token %}
+    <div class="container">
+    <div class="row">
+    <div class="col-8">
+        <div class="row">
+      <div class="col-6 ">
+
+    <p>  <label >Arcade User ID: </label>
+    {{ form.arcade_user_id |add_class:'form-control' }}</p>
+    </div>
+    <div class="col-6 ">
+    <p>  <label >Arcade User Status: </label>
+    {{ form.aracde_user_status |add_class:'form-control' }}</p>
+    </div>
+  </div>
+
+
+
+    <div class="row">
+    <div class="col-6 ">
+
+    <p><label >Arcade User First Name: </label>
+    {{ form.arcade_user_firstname |add_class:'form-control' }}</p>
+    </div>
+    <div class="col-6 ">
+    <label >Arcade User Last Name: </label>
+    {{ form.arcade_user_lastname |add_class:'form-control' }}
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="col-12 ">
+
+    <p>  <label >Arcade User Email Address: </label>
+    {{ form.arcade_user_email|add_class:'form-control' }}</p>
+    </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">Save changes</button>
+    <a href="{% url 'client_pages' account.company_id.orgid %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+  </form>
+
+</div>
+
+<div class="col-4 ">
+  <div class="card bg-light mb-3" style="max-width: 18rem;">
+<div class="card-header"><strong>Current Information</strong></div>
+<div class="card-body">
+
+  <p class="card-text"><strong>Arcade User ID: </strong> {{ account.arcade_user_id}}</p>
+  <p><strong>Arcade User: </strong>{{ account.arcade_user_firstname}} {{ account.arcade_user_lastname}}</p>
+  <p><strong>Email: </strong> {{ account.arcade_user_email}}</p>
+  <p><strong>User Status: </strong><strong><span class="{% if account.aracde_user_status == 'ACTIVE' %} active-color {% elif account.aracde_user_status == 'INACTIVE' %} inactive-color {% endif %}"> {{ account.aracde_user_status }}</span></strong> </p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+{% endblock %}
