@@ -8,6 +8,7 @@
 </li>
 {% endblock %}
 
+
 {% block content %}
 
 <div class="superdata-link">
@@ -23,189 +24,139 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" id="highvalue-tab" data-toggle="tab" href="#highvalue" role="tab" aria-controls="highvalue" aria-selected="false">High Value Check</a>
-      </li>
+    </li>
     <li class="nav-item">
-      <a class="nav-link" id="doc-tab" data-toggle="tab" href="#doc-link" role="tab" aria-controls="documentation" aria-selected="false" >Documentation</a>
+        <a class="nav-link" id="doc-tab" data-toggle="tab" href="#doc-link" role="tab" aria-controls="documentation" aria-selected="false" >Documentation</a>
     </li>
   </ul>
-  <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="string" role="tabpanel" aria-labelledby="rowcheck-tab">
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="string" role="tabpanel" aria-labelledby="rowcheck-tab">
       <br>
-        <div class="container">
-            <div class="row">
-              <div class="col-sm">
-          <h3>String Check</h3>
-          <br>
+          <div class="container">
+              <div class="row">
+                  <div class="col-sm">
+                  <h3>String Check</h3>
+                  <br>
+                    <a href="{% url 'devName' %}"><h5>Developer Name Unification ({{ a }})</h5></a>
+                    <br>
+                    <a href="{% url 'pubName' %}"><h5>Publisher Name Unification ({{ b }})</h5></a>
+                    <br>
+                    <a href="{% url 'titleCase' %}"><h5>Title Case Sensitivity ({{ c }})</h5></a>
+                    <br>
+                    <a href="{% url 'whiteSpace' %}"><h5>Whitespace ({{ d }})</h5></a>
 
-          <a href="{% url 'devName' %}"><h5>Developer Name Unification ({{a}})</h5></a>
-          <br>
-          <a href="{% url 'pubName' %}"><h5>Publisher Name Unification ({{b}})</h5></a>
-          <br>
-          <a href="{% url 'titleCase' %}"><h5>Title Case Sensitivity ({{c}})</h5></a>
-          <br>
-          <a href="{% url 'whiteSpace' %}"><h5>Whitespace ({{d}})</h5></a>
-          </div>
-
-
-
-          <div class="col-sm">
-              <h3>Duplicate Check</h3>
-              <br>
-              <a href="{% url 'DuplicateMarket' %}"><h5>Market Level ({{e}})</h5></a>
-              <br>
-              <a href="{% url 'DuplicateMarketGenre' %}"><h5>Market Level Genre ({{f}})</h5></a>
-              <br>
-              <a href="{% url 'DuplicateMarketPlatform' %}"><h5>Market Level Platform ({{g}})</h5></a>
-              <br>
-              <a href="{% url 'DuplicateTitle' %}"><h5>Title Level ({{h}})</h5></a>
-              <br>
-            </div>
-            <div class="col-sm">
-                <h3>Negative Check</h3>
-                <br>
-                <a href="{% url 'NegativeMarket' %}"><h5>Market Level ({{i}})</h5></a>
-                <br>
-                <a href="{% url 'NegativeMarketGenre' %}"><h5>Market Level Genre ({{j}})</h5></a>
-                <br>
-                <a href="{% url 'NegativeMarketPlatform' %}"><h5>Market Level Platform ({{k}})</h5></a>
-                <br>
-                <a href="{% url 'NegativeTitle' %}"><h5>Title Level ({{l}})</h5></a>
-            </div>
-
-
-          </div>
-
-          </div>
+                </div>
+                <div class="col-sm">
+                  <h3>Duplicate Check</h3>
+                    <br>
+                    <a href="{% url 'DuplicateMarket' %}"><h5>Market Level ({{ e }})</h5></a>
+                    <br>
+                    <a href="{% url 'DuplicateMarketGenre' %}"><h5>Market Level Genre ({{ f }})</h5></a>
+                    <br>
+                    <a href="{% url 'DuplicateMarketPlatform' %}"><h5>Market Level Platform ({{ g }})</h5></a>
+                    <br>
+                    <a href="{% url 'DuplicateTitle' %}"><h5>Title Level ({{ h }})</h5></a>
+                    <br>
+                </div>
+                <div class="col-sm">
+                    <h3>Negative Check</h3>
+                    <br>
+                    <a href="{% url 'NegativeMarket' %}"><h5>Market Level ({{ i }})</h5></a>
+                    <br>
+                    <a href="{% url 'NegativeMarketGenre' %}"><h5>Market Level Genre ({{ j }})</h5></a>
+                    <br>
+                    <a href="{% url 'NegativeMarketPlatform' %}"><h5>Market Level Platform ({{ k }})</h5></a>
+                    <br>
+                    <a href="{% url 'NegativeTitle' %}"><h5>Title Level ({{ l }})</h5></a>
+                </div>
+        </div>
+      </div>
     </div>
     <div class="tab-pane fade" id="aggregateI" role="tabpanel" aria-labelledby="aggregateI-tab">
-      <br>
-      <div class="container">
-        <div class="row">
-          <div class="col-sm">
-              <h3>Title Level</h3>
-              <br>
-      <h5>Conversion Ingame ({{m}})</h5>
-        <br>
-        <h5>  Conversion Micro ({{n}})</h5>
-        <br>
-      <h5> MAU vs Lifetime Downloads Excess ({{o}})</h5>
-      <br>
-      <h5> In-Game Spending ({{t28}})</h5>
-      </div>
-      <div class="col-sm">
-        <h3>Title Level Platform vs Subplatform</h3>
-
-        <br>
-        <h5>F2P Console MAU ({{p}})</h5>
-        <br>
-        <h5>F2P Console Revenue ({{q}})</h5>
-        <br>
-        <h5>F2P PC MAU ({{r}})</h5>
-        <br>
-        <h5>F2P PC Revenue ({{s}})</h5>
-        <br>
-        <h5>Mobile MAU ({{t}})</h5>
-        <br>
-        <h5>Mobile Revenue ({{u}})</h5>
-        <br>
-        <h5>P2P PC MAU ({{v}})</h5>
-        <br>
-        <h5>P2P PC Revenue ({{w}})</h5>
-        <br>
-        <h5>Premium Console MAU ({{x}})</h5>
-        <br>
-        <h5>Premium Console Revenue ({{y}})</h5>
-        <br>
-        <h5>Premium PC MAU ({{z}})</h5>
-        <br>
-        <h5>Premium PC Revenue ({{t15}})</h5>
+    <br>
+        <div class="container">
+          <div class="row">
+              <div class="col-sm">          
+          <h3>Title Level</h3>
+          <br>
+            {% for x, y in m %}
+                <h5>{{ x }}: {{ y }}</h5>
+                <br>
+            {% endfor %}
         </div>
-        </div>
+            <div class="col-sm">
+          <h3>Title Level Platform vs Subplatform</h3>
+          <br>
+            {% for x, y in n %}
+                <h5>{{ x }}: {{ y }}</h5>
+                <br>
+            {% endfor %}
+            </div>
+          </div>
         </div>
     </div>
     <div class="tab-pane fade" id="aggregateII" role="tabpanel" aria-labelledby="aggregateII-tab">
-        <br>
+    <br>
         <div class="container">
-          <div class="row">
+            <div class="row">
+              <div class="col-sm">
+          <h3>Title Level Region vs Subregion</h3>
+          <br>
+            {% for x, y in o %}
+                <h5>{{ x }}: {{ y }}</h5>
+                <br>
+            {% endfor %}
+        </div>
             <div class="col-sm">
-                <h3>Title Level Region vs Subregion</h3>
-                <br>
-                <h5>F2P Console MAU ({{t16}})</h5>
-                <br>
-                <h5>F2P Console Revenue ({{t17}})</h5>
-                <br>
-                <h5>F2P PC MAU ({{t18}})</h5>
-                <br>
-                <h5>F2P PC Revenue ({{t19}})</h5>
-      </div>
-      <div class="col-sm">
               <h3>Title Level WW vs Regions</h3>
               <br>
-              <h5>F2P Console MAU ({{t20}})</h5>
-              <br>
-              <h5>F2P Console Revenue ({{t21}})</h5>
-              <br>
-              <h5>F2P PC MAU ({{t22}})</h5>
-              <br>
-              <h5>F2P PC Revenue ({{t23}})</h5>
-              <br>
-              <h5>P2P PC MAU ({{t24}})</h5>
-              <br>
-              <h5>P2P PC Revenue ({{t25}})</h5>
-              <br>
-              <h5>Premium Console MAU ({{t26}})</h5>
-              <br>
-              <h5>Premium Console Revenue ({{t27}})</h5>
+            {% for x, y in p %}
+                <h5>{{ x }}: {{ y }}</h5>
+                <br>
+            {% endfor %}
         </div>
       </div>
-      </div>
     </div>
+  </div>
     <div class="tab-pane fade" id="highvalue" role="tabpanel" aria-labelledby="highvalue-tab">
-        <br>
+    <br>
         <div class="container">
-          <div class="row">
-            <div class="col-sm">
-
-              <h3>High Conversion Rate</h3>
-              <br>
-              <h5> Title Level ({{h4}})</h5>
-              <br>
-              <h5> Market Level ({{h1}})</h5>
-              <br>
-              <h5> Market Level Genre ({{h2}})</h5>
-              <br>
-              <h5> Market Level Platform ({{h3}})</h5>
-
-              <br>
-              <br>
-              <h3>High ARPMAU</h3>
-              <br>
-              <h5>Title Level ({{h5}})</h5>
-              </div>
+            <div class="row">
+              <div class="col-sm">
+          <h3>High Conversion Rate</h3>
+          <br>
+            {% for x, y in q %}
+                <h5>{{ x }}: {{ y }}</h5>
+                <br>
+            {% endfor %}
+          <br>
+          <br>
+          <h3>High ARPMAU</h3>
+          <br>
+            {% for x, y in r %}
+                <h5>{{ x }}: {{ y }}</h5>
+                <br>
+            {% endfor %}
+        </div>
               <div class="col-sm">
                 <h3>High In-Game ARPPU</h3>
                 <br>
-                <h5>Title Level ({{h8}})</h5>
+            {% for x, y in s %}
+                <h5>{{ x }}: {{ y }}</h5>
                 <br>
-                <h5>Market Level ({{h6}}) </h5>
-                <br>
-                <h5>Market Level Genre ({{h9}})</h5>
-                <br>
-                <h5>Market Level Platform ({{h7}})</h5>
-              </div>
-            </div>
-          </div>
-    </div>
-    <div class="tab-pane fade" id="doc-link" role="tabpanel" aria-labelledby="documentation">
-      <br>
-      <a href="https://docs.google.com/document/d/10XnWL2vifC3_GO05R6yw8c5ytDt9SAIdYp9SY1oTPkI/edit?usp=sharing" target="_blank"><h5 align="center"> Documentation (WIP)</h5></a>
+            {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
-
-
-
+    <div class="tab-pane fade" id="doc-link" role="tabpanel" aria-labelledby="documentation">
+    <br>
+        <a href="https://docs.google.com/document/d/10XnWL2vifC3_GO05R6yw8c5ytDt9SAIdYp9SY1oTPkI/edit?usp=sharing" target="_blank"><h5 align="center"> Documentation (WIP)</h5></a>
+    </div>
+  </div>
 <br>
 <br>
 <p>To learn more about this feature, please contact  <a href="{% url 'team_member' username='chen.ke' %}" target="_blank">Chen Ke</a></p>
 </div>
-{% endblock %}
+
+{% endblock%}
