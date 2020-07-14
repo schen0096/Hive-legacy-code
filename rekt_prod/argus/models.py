@@ -750,3 +750,4 @@ class HighIngameArppuMarketLevelPlatform(models.Model):
         managed = False
         db_table = 'high_ingame_arppu_market_level_platform'
         verbose_name = "Market Level Platform"
+

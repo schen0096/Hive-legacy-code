@@ -174,3 +174,4 @@ def F2PConsoleMau(request):
 def F2PConsoleRevenue(request):
     table = m.TitleLevelPlatformVsSubplatformF2PConsoleRevenue.objects.using('argus').all()[:200]
     return render(request, 'argus/platform_subplatform/f2p_console_revenue.html', {'table':table})
+
