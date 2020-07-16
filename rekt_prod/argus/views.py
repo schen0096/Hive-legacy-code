@@ -52,7 +52,7 @@ def argushome(request):
         highARPMAUCheck = list(table[44:45])
         highInGameCheck = list(table[45:49])
         return render(request, 'argus/argus_home.html', {
-            'table':table, 'a':String1, 'b':String2, 'c':String3, 'd':String4, 'e':Duplicate1,
+            'a':String1, 'b':String2, 'c':String3, 'd':String4, 'e':Duplicate1,
             'f':Duplicate2, 'g':Duplicate3, 'h':Duplicate4, 'i':Negative1, 'j':Negative2,
             'k':Negative3, 'l':Negative4, 'm':titleCheck, 'n':titleCheckPlatformVsSub,
             'o':titleCheckRegionVsSub, 'p': titleCheckWWVsRegion, 'q':highCheck,
