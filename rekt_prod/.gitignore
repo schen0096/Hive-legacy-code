@@ -5,7 +5,7 @@ __pycache__/
 **/*.pyc
 .DS_Store
 .vscode/*
-.ebextension/*
+.ebextensions/*
 .elasticbeanstalk/
 db.sqlite3
 media/images/
