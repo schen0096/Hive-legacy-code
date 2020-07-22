@@ -1,0 +1,12 @@
+local/
+*/__pycache__
+**/__pycache__
+__pycache__/
+**/*.pyc
+.DS_Store
+.vscode/*
+.ebextension/*
+.elasticbeanstalk/
+db.sqlite3
+media/images/
+.vscode/
