@@ -1,4 +1,6 @@
 import calendar
+import csv
+#import pandas as pd
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -20,6 +22,8 @@ from .form import (NewInteraction, NewSubscription,
                    NewAccount, NewCompany, EditCompany, UploadPic,
                    EditProfile, NewXRAccount, NewXRSubscription)
 from django.urls import reverse_lazy
+from itertools import chain
+from django.http import HttpResponse
 
 dbConnTab = connections['live']
 try:
@@ -150,6 +154,36 @@ def client_pages(request, orgid):
                    'arcadeStatus':arcadeStatus, 'subList':subList, 'xr_users':xr_users,
                    'xr_histories':xr_histories, 'xr_tiers':xr_tiers,
                    'XRUserCount':XRUserCount,'contractURL':contractURL})
+
+@login_required
+def export_csv(request):
+    company_id = company.objects.all().values_list('company_id')
+    response = HttpResponse(content_type = 'text/csv')
+    response['Content-Disposition'] = 'attachment; filename="subscriber list.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['Company ID', 'Company Name', 'Point of Contact First Name', 
+        'Point of Contact Last Name','Point of Contact Email', 'Client Status', 
+        'XR Status', 'Custom Deliverable', 'Arcade Status', 'Active Accounts',
+        'FTP Status', 'Arcade Subscription', 'Subscription Start Date',
+        'Subscription End Date'])
+    company_fields = company.objects.all().values_list('company_id', 'cname', 'poc_firstname', 
+        'poc_lastname', 'poc_email', 'client_status','xr_status', 'custom_deliverables')
+    sub_field1 = subscription_history.objects.filter(company_id__in=company_id).values_list(
+        'subscription_start').annotate(latest=Max('subscription_start'))
+    sub_field2 = subscription_history.objects.filter(company_id__in=company_id).values_list(
+        'subscription_end').annotate(latest=Max('subscription_end'))
+    ftp_field = ActiveArcadeSubscriptions.objects.using('live').filter(
+        subscription_id=str(company.arcade_id)).values_list('ftp')
+    arcade_status = ActiveArcadeSubscriptions.objects.using('live').filter(
+        subscription_id=str(company.arcade_id)).values_list('status')
+    all_fields = chain(company_fields, sub_field1, sub_field2, ftp_field, arcade_status)
+    #code for other fields first then come back to combine altogether for columns
+    #generate an array / matrix?
+    #pull dtat from database using query!!
+    for user in all_fields:
+        writer.writerow(user)    
+    return response
+
 ################################################
 ##########ADD/EDIT COMPANY######################
 @login_required

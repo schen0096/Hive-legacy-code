@@ -90,6 +90,7 @@ urlpatterns = [
     path('ds/expiring_accounts/', dsviews.expiringSub, name='expiring_account'),
     path('ds/client/<pk>/edit/',
          dsviews.CompanyUpdate.as_view(), name='edit_company'),
+    path('ds/clientlist', dsviews.export_csv, name='export_csv'),
 
     path('rekt/', pviews.rekthome, name='rekthome'),
     path('rekt/earlyaccess_progress', pviews.process, name='current'),
