@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import Truncator
-from datetime import datetime
+from datetime import datetime, timedelta
 from pytz import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -265,3 +265,13 @@ class ArcadeSubscriptionsRekt(models.Model):
     class Meta:
         managed = False
         db_table = 'arcade_subscriptions_rekt'
+
+class PageSummary(models.Model):
+    username = models.CharField(max_length=255, blank=True, primary_key=True)
+    page = models.CharField(max_length=50, blank=True, null=True)
+    time_spent = models.CharField(max_length=255, blank=True, null=True)
+    
+    class Meta:
+        managed = False
+        db_table = 'page_summary'
+        

@@ -176,6 +176,17 @@ DATABASES = {
         'OPTIONS': {
             'connect_timeout':1,
         }
+    },
+    'timber':{
+        'ENGINE':'django.db.backends.mysql',
+        'NAME': 'arcade_logs_summary',
+        'USER': timber_u,
+        'PASSWORD': timber_p,
+        'HOST': 'gatekeeper-timber-instance-1.c2xidsbamodi.us-east-1.rds.amazonaws.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'connect_timeout':1,
+        }
     }
 
 }

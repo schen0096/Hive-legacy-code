@@ -9,12 +9,14 @@ from .models import (company, arcade_user, subscription_history, interaction,
                      subscription_history_log, interaction_log,
                      ArcadeSubscriptionsRekt, ActiveArcadeSubscriptions,
                      profile, profile_photo, label, xr_user, xr_subscription_history,
+                     PageSummary
                      )
 from django.db.models import Q, Max, Count
+from django.db.models.functions import Lower
 from django.views.generic import UpdateView, CreateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import Group, User
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db import connections
 from django.db.utils import OperationalError
@@ -148,41 +150,61 @@ def client_pages(request, orgid):
     inter = c.interaction.all()
     UserCount = c.arcade_user.filter(aracde_user_status='ACTIVE').count()
     XRUserCount = c.xr_user.filter(xr_user_status='ACTIVE').count()
+    PageSummary.objects.using('timber').update(username = Lower('username'))
+    user_log = PageSummary.objects.using('timber').filter(username__in = [user.arcade_user_email for user in arcade_users])
     return render(request, 'ds/clientpage.html',
                   {'company':c, 'auser':arcade_users, 'history':history,
                    'interaction':inter, 'count':UserCount, 'ftpStatus':ftpStatus,
                    'arcadeStatus':arcadeStatus, 'subList':subList, 'xr_users':xr_users,
                    'xr_histories':xr_histories, 'xr_tiers':xr_tiers,
-                   'XRUserCount':XRUserCount,'contractURL':contractURL})
+                   'XRUserCount':XRUserCount,'contractURL':contractURL, 
+                   'user_log':user_log})
 
-@login_required
-def export_csv(request):
-    company_id = company.objects.all().values_list('company_id')
-    response = HttpResponse(content_type = 'text/csv')
-    response['Content-Disposition'] = 'attachment; filename="subscriber list.csv"'
-    writer = csv.writer(response)
-    writer.writerow(['Company ID', 'Company Name', 'Point of Contact First Name', 
-        'Point of Contact Last Name','Point of Contact Email', 'Client Status', 
-        'XR Status', 'Custom Deliverable', 'Arcade Status', 'Active Accounts',
-        'FTP Status', 'Arcade Subscription', 'Subscription Start Date',
-        'Subscription End Date'])
-    company_fields = company.objects.all().values_list('company_id', 'cname', 'poc_firstname', 
-        'poc_lastname', 'poc_email', 'client_status','xr_status', 'custom_deliverables')
-    sub_field1 = subscription_history.objects.filter(company_id__in=company_id).values_list(
-        'subscription_start').annotate(latest=Max('subscription_start'))
-    sub_field2 = subscription_history.objects.filter(company_id__in=company_id).values_list(
-        'subscription_end').annotate(latest=Max('subscription_end'))
-    ftp_field = ActiveArcadeSubscriptions.objects.using('live').filter(
-        subscription_id=str(company.arcade_id)).values_list('ftp')
-    arcade_status = ActiveArcadeSubscriptions.objects.using('live').filter(
-        subscription_id=str(company.arcade_id)).values_list('status')
-    all_fields = chain(company_fields, sub_field1, sub_field2, ftp_field, arcade_status)
-    #code for other fields first then come back to combine altogether for columns
-    #generate an array / matrix?
-    #pull dtat from database using query!!
-    for user in all_fields:
-        writer.writerow(user)    
-    return response
+# @login_required
+# def export_csv(request):
+#     arcadeID = company.arcade_id
+#     company_id = company.objects.all().values_list('company_id')
+#     response = HttpResponse(content_type = 'text/csv')
+#     response['Content-Disposition'] = 'attachment; filename="subscriber list.csv"'
+#     writer = csv.writer(response)
+#     writer.writerow(['Company ID', 'Company Name', 'Point of Contact First Name', 
+#         'Point of Contact Last Name','Point of Contact Email', 'Client Status', 
+#         'XR Status', 'Custom Deliverable', 'Arcade Status', 'Active Accounts',
+#         'FTP Status', 'Arcade Subscription', 'Subscription Start Date',
+#         'Subscription End Date'])
+#     company_fields = company.objects.all().values_list('company_id', 'cname', 'poc_firstname', 
+#         'poc_lastname', 'poc_email', 'client_status','xr_status', 'custom_deliverables')
+#     sub_field1 = subscription_history.objects.filter(company_id__in = company_id).values_list(
+#         'subscription_start').annotate(latest=Max('subscription_start'))
+#     sub_field2 = subscription_history.objects.filter(company_id__in = company_id).values_list(
+#         'subscription_end').annotate(latest=Max('subscription_end'))
+#     # if connectedToTab:
+#     #     try:
+#     #         active_sub_list = (
+#     #             ActiveArcadeSubscriptions.objects.using('live').filter(
+#     #                 subscription_id=str(company.arcade_id)).values('ftp', 'status')[0])
+#     #         ftp_field = active_sub_list['ftp']
+#     #         arcade_status = active_sub_list['status']
+#     #     except (IndexError, OperationalError):
+#     #         ftpStatus = 0
+#     #         arcadeStatus = 0
+#     #     try: sub_type = ArcadeSubscriptionsRekt.objects.using('live').filter(
+#     #         subscription_id=arcadeID)
+#     #     except IndexError:
+#     #         sub_type = []
+#     # else:
+#     #     ftp_field = "N/A"
+#     #     arcade_status = "N/A"
+#     #     sub_type = []
+#     # all_fields = chain(company_fields, arcade_status, ftp_field, sub_type, sub_field1, sub_field2,)
+#     all_fields = chain(company_fields, sub_field1, sub_field2,)
+#     #code for other fields first then come back to combine altogether for columns
+#     #generate an array / matrix?
+#     #pull dtat from database using query!!
+#     for user in all_fields:
+#         writer.writerow(user)    
+#     return response, redirect('ds/clientlist.html')
+
 
 ################################################
 ##########ADD/EDIT COMPANY######################

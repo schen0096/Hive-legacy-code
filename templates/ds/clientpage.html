@@ -72,6 +72,7 @@
               <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Arcade Accounts</a>
               <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Subscriptions</a>
               <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">History</a>
+              <a class="nav-item nav-link" id="nav-log-tab" data-toggle="tab" href="#nav-log" role="tab" aria-controls="nav-log" aria-selected="false">User Log</a>
             </div>
           </nav>
         </div>
@@ -184,6 +185,37 @@
           {% endfor %}
         </tbody>
       </table>
+    </div>
+    <div class="tab-pane fade" id="nav-log" role="tabpanel" aria-labelledby="nav-log-tab">
+      <div class="container mt-3 mb-1">
+            <div class="row">
+                <div class="col-7" align="right"><h5>User Logs</h5></div>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th class="sorter-false filter-false">Username</th>
+                            <th class="sorter-false filter-false">Page Visited</th>
+                            <th class="sorter-false filter-false">Time Spent</th>
+                        </thead>
+                          <tbody>
+                            {% for log in user_log %}
+                                <td>
+                                  {% if log.time_spent %}
+                                    {{ log.username }}
+                                </td>
+                                <td>
+                                    {{ log.page }}
+                                </td>
+                                <td>
+                                    {{ log.time_spent }}
+                                </td>
+                                  {% endif %}
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+            </div>
+      </div>
     </div>
   </div>
   </div>
