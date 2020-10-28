@@ -247,16 +247,16 @@ class interaction_log(models.Model):
         return truncated_notes.chars(30)
 
 
-class ActiveArcadeSubscriptions(models.Model):
-    subscription_id = models.CharField(
-        max_length=12, blank=True, primary_key=True)
-    company_name = models.CharField(max_length=255, blank=True, null=True)
-    status = models.IntegerField(blank=True, null=True)
-    ftp = models.IntegerField(blank=True, null=True)
+# class ActiveArcadeSubscriptions(models.Model):
+#     subscription_id = models.CharField(
+#         max_length=12, blank=True, primary_key=True)
+#     company_name = models.CharField(max_length=255, blank=True, null=True)
+#     status = models.IntegerField(blank=True, null=True)
+#     ftp = models.IntegerField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'active_arcade_subscriptions'
+#     class Meta:
+#         managed = False
+#         db_table = 'active_arcade_subscriptions'
 
 class ArcadeSubscriptionsRekt(models.Model):
     subscription_id = models.IntegerField(blank=True, primary_key=True)
@@ -274,4 +274,90 @@ class PageSummary(models.Model):
     class Meta:
         managed = False
         db_table = 'page_summary'
+
+class ActiveArcadeSubscriptions(models.Model):
+    subscription_id = models.AutoField(primary_key=True)
+    company_name = models.CharField(max_length=255, blank=True, null=True)
+    status = models.IntegerField(blank=True, null=True)
+    ftp = models.IntegerField(blank=True, null=True)
+    access_level = models.CharField(max_length=255, blank=True, null=True)
+    access_max_month_year = models.DateField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'active_arcade_subscriptions'
+
+class GatekeeperLogAccount(models.Model):
+    update_time = models.DateTimeField(blank=True, null=True)
+    update_by = models.CharField(max_length=255)
+    subscription_id = models.IntegerField()
+    company_name = models.CharField(max_length=255)
+    client_status = models.IntegerField()
+    product_access = models.CharField(max_length=255)
+    full_access = models.IntegerField()
+    ftp_access = models.IntegerField()
+    data_access = models.DateTimeField(blank=True, null=True)
+    action_taken = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'gatekeeper_log_account'
+
+
+class GatekeeperLogSubscription(models.Model):
+    update_time = models.DateTimeField(blank=True, null=True)
+    update_by = models.CharField(max_length=255)
+    subscription_id = models.IntegerField()
+    permission_id = models.IntegerField()
+    action_taken = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'gatekeeper_log_subscription'
+
+
+class GatekeeperLogUser(models.Model):
+    update_time = models.DateTimeField(blank=True, null=True)
+    update_by = models.CharField(max_length=255)
+    subscription_id = models.IntegerField()
+    user_full_name = models.CharField(max_length=255)
+    user_email = models.CharField(max_length=255)
+    account_status = models.IntegerField()
+    action_taken = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'gatekeeper_log_user'
+
+class PermissionMaster(models.Model):
+    permission_id = models.AutoField(primary_key=True)
+    subscription_id = models.IntegerField(blank=True, null=True)
+    product_type = models.CharField(max_length=255, blank=True, null=True)
+    main_criterion = models.CharField(max_length=255, blank=True, null=True)
+    mc_value = models.CharField(max_length=255, blank=True, null=True)
+    second_criterion = models.CharField(max_length=255, blank=True, null=True)
+    sc_value = models.CharField(max_length=255, blank=True, null=True)
+    third_criterion = models.CharField(max_length=255, blank=True, null=True)
+    tc_value = models.CharField(max_length=255, blank=True, null=True)
+    fourth_criterion = models.CharField(max_length=255, blank=True, null=True)
+    fc_value = models.CharField(max_length=255, blank=True, null=True)
+    permission_status = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'permission_master'
+
+class UsersEmailMapping(models.Model):
+    subscription_id = models.IntegerField(primary_key=True)
+    org_id = models.CharField(max_length=255, blank=True, null=True)
+    org_name = models.CharField(max_length=255, blank=True, null=True)
+    user_id = models.CharField(max_length=8, blank=True, null=True)
+    first_name = models.CharField(max_length=255, blank=True, null=True)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
+    email = models.CharField(max_length=255, blank=True, null=True)
+    access_level = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'users_email_mapping'
         
