@@ -9,7 +9,8 @@ from .models import (company, arcade_user, subscription_history, interaction,
                      subscription_history_log, interaction_log,
                      ArcadeSubscriptionsRekt, ActiveArcadeSubscriptions,
                      profile, profile_photo, label, xr_user, xr_subscription_history,
-                     PageSummary
+                     PageSummary, GatekeeperLogAccount, GatekeeperLogSubscription,
+                     GatekeeperLogUser, PermissionMaster, UsersEmailMapping
                      )
 from django.db.models import Q, Max, Count
 from django.db.models.functions import Lower
@@ -115,7 +116,8 @@ def clientlist2(request):
 @user_passes_test(check_group, login_url='home')
 def client_pages(request, orgid):
     c = get_object_or_404(company, orgid=orgid)
-    arcade_users = c.arcade_user.all().order_by('arcade_user_id')
+    #arcade_users = c.arcade_user.all().order_by('arcade_user_id')
+    current_users = UsersEmailMapping.objects.using('arcade_frontend').filter(subscription_id=c.arcade_id).order_by('user_id')
     xr_users = c.xr_user.all().order_by('xr_user_status')
     arcadeID = c.arcade_id
     history = c.subscription_history.all().order_by('-subscription_start')
@@ -130,7 +132,7 @@ def client_pages(request, orgid):
     if connectedToTab:
         try:
             activeSubList = (
-                ActiveArcadeSubscriptions.objects.using('live').filter(
+                ActiveArcadeSubscriptions.objects.using('arcade_frontend').filter(
                     subscription_id=str(c.arcade_id)).values('ftp', 'status')[0])
             ftpStatus = activeSubList['ftp']
             arcadeStatus = activeSubList['status']
@@ -150,15 +152,17 @@ def client_pages(request, orgid):
     inter = c.interaction.all()
     UserCount = c.arcade_user.filter(aracde_user_status='ACTIVE').count()
     XRUserCount = c.xr_user.filter(xr_user_status='ACTIVE').count()
-    PageSummary.objects.using('timber').update(username = Lower('username'))
-    user_log = PageSummary.objects.using('timber').filter(username__in = [user.arcade_user_email for user in arcade_users])
+    #PageSummary.objects.using('timber').update(username = Lower('username'))
+    user_log = PageSummary.objects.using('timber').filter(username__in = [user.email for user in current_users])
+
     return render(request, 'ds/clientpage.html',
-                  {'company':c, 'auser':arcade_users, 'history':history,
+                  {'company':c, 'auser':current_users, 'history':history,
                    'interaction':inter, 'count':UserCount, 'ftpStatus':ftpStatus,
                    'arcadeStatus':arcadeStatus, 'subList':subList, 'xr_users':xr_users,
                    'xr_histories':xr_histories, 'xr_tiers':xr_tiers,
-                   'XRUserCount':XRUserCount,'contractURL':contractURL, 
-                   'user_log':user_log})
+                   'XRUserCount':XRUserCount,'contractURL':contractURL,
+                   'user_log':user_log}
+                   )
 
 
 ################################################
@@ -246,30 +250,31 @@ def new_account(request, orgid):
     return render(request, 'ds/new_account.html', {'company': c, 'form':form})
 
 
-@method_decorator(login_required, name='dispatch')
-class AccountUpdate(UserPassesTestMixin, UpdateView):
-    model = arcade_user
-    form_class = NewAccount
-    template_name = 'ds/edit_account.html'
-    pk_url_kwarg = 'account_pk'
-    context_object_name = 'account'
+# @method_decorator(login_required, name='dispatch')
+# class AccountUpdate(UserPassesTestMixin, UpdateView):
+#     model = arcade_user
+#     form_class = NewAccount
+#     template_name = 'ds/edit_account.html'
+#     pk_url_kwarg = 'account_pk'
+#     context_object_name = 'account'
 
-    def test_func(self):
-        return self.request.user.groups.filter(
-            Q(name="Level 4")|Q(name="Level 5")).exists()
-    def handle_no_permission(self):
-        return redirect('home')
+#     def test_func(self):
+#         return self.request.user.groups.filter(
+#             Q(name="Level 4")|Q(name="Level 5")).exists()
+#     def handle_no_permission(self):
+#         return redirect('home')
 
-    def form_valid(self, form):
-        account = form.save(commit=False)
-        account.save()
-        oid = get_object_or_404(orggid, orgid_value=account.company_id.orgid)
-        log = form.log()
-        log.orgid = oid
-        log.updated_by = self.request.user
-        log.log_notes = 'Edit'
-        log.save()
-        return redirect('client_pages', orgid=account.company_id.orgid)
+#     def form_valid(self, form):
+#         account = form.save(commit=False)
+#         account.save()
+#         oid = get_object_or_404(orggid, orgid_value=account.company_id.orgid)
+#         log = form.log()
+#         log.orgid = oid
+#         log.updated_by = self.request.user
+#         log.log_notes = 'Edit'
+#         log.save()
+#         return redirect('client_pages', orgid=account.company_id.orgid)
+
 ################################################################
 ###############ADD/EDIT ARCADE SUBSCRIPTION#####################
 @login_required
@@ -519,9 +524,13 @@ def logtable(request):
 @login_required
 @user_passes_test(check_group2, login_url='home')
 def logpage(request, oid):
+    c = get_object_or_404(company, orgid=oid)
     oid = get_object_or_404(orggid, orgid_value=oid)
+    arcade_users = UsersEmailMapping.objects.using('arcade_frontend').filter(
+        subscription_id=c.arcade_id)
     companies = company_log.objects.filter(orgid=oid)
-    arcade_client = arcade_user_log.objects.filter(orgid=oid)
+    arcade_client = GatekeeperLogUser.objects.using('arcade_frontend').filter(
+        subscription_id__in = [user.subscription_id for user in arcade_users])
     history = subscription_history_log.objects.filter(orgid=oid)
     interactions = interaction_log.objects.filter(orgid=oid)
     return render(request, 'ds/logcompany.html',

@@ -187,6 +187,17 @@ DATABASES = {
         'OPTIONS': {
             'connect_timeout':1,
         }
+    },
+    'arcade_frontend':{
+        'ENGINE':'django.db.backends.mysql',
+        'NAME': 'Horizon',
+        'USER': frontend_u,
+        'PASSWORD': frontend_p,
+        'HOST': 'arcade-frontend-cluster.cluster-c2xidsbamodi.us-east-1.rds.amazonaws.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'connect_timeout':1,
+        }
     }
 
 }

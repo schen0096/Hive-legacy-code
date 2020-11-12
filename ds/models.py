@@ -317,9 +317,9 @@ class GatekeeperLogSubscription(models.Model):
 
 
 class GatekeeperLogUser(models.Model):
-    update_time = models.DateTimeField(blank=True, null=True)
+    update_time = models.DateTimeField(default=est)
     update_by = models.CharField(max_length=255)
-    subscription_id = models.IntegerField()
+    subscription_id = models.IntegerField(primary_key=True)
     user_full_name = models.CharField(max_length=255)
     user_email = models.CharField(max_length=255)
     account_status = models.IntegerField()

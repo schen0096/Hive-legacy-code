@@ -1,4 +1,7 @@
 {% extends 'base2.html' %}
+
+{% load tz %}
+
 {% block foo %}
 {% include 'navbar.html' %}
 {% endblock %}
@@ -84,35 +87,39 @@
     <tr>
       <th>Update Time</th>
       <th>Update By</th>
-      <th>Arcade ID</th>
+      <th>Subscription ID</th>
       <th>Name</th>
       <th class="sorter-false filter-false">Email</th>
       <th>Status</th>
-      <th>Notes</th>
+      <th>Action Taken</th>
+<!--       <th>Notes</th> -->
     </tr>
 
   </thead>
   {% for a in auser %}
   <tr>
-    <td>{{ a.time|date:"n/j/y G:i" }}
+    <td>{{ a.update_time|timezone:"US/Eastern"|date:"n/j/y G:i" }}
     </td>
     <td>
-      {{ a.updated_by }}
+      {{ a.update_by }}
     </td>
     <td>
-      {{ a.arcade_user_id }}
+      {{ a.subscription_id }}
     </td>
     <td>
-      {{ a.arcade_user_firstname }} {{ a.arcade_user_lastname }}
+      {{ a.user_full_name }}
     </td>
     <td>
-      {{ a.arcade_user_email }}
+      {{ a.user_email }}
     </td>
     <td>
       <span class="{% if a.aracde_user_status == 'ACTIVE' %} active-color {% elif a.aracde_user_status == 'INACTIVE' %} inactive-color {% endif %}">
-      {{ a.aracde_user_status }}</span>
+      {{ a.account_status }}</span>
     </td>
-    <td>{{ a.log_notes }}</td>
+    <td>
+      {{ a.action_taken }}
+    </td>
+<!--     <td>{{ a.log_notes }}</td> -->
 </tr>
 
     {% endfor %}
