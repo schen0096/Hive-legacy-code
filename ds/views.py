@@ -117,7 +117,8 @@ def clientlist2(request):
 def client_pages(request, orgid):
     c = get_object_or_404(company, orgid=orgid)
     #arcade_users = c.arcade_user.all().order_by('arcade_user_id')
-    current_users = UsersEmailMapping.objects.using('arcade_frontend').filter(subscription_id=c.arcade_id).order_by('user_id')
+    current_users = UsersEmailMapping.objects.using(
+        'arcade_frontend').filter(subscription_id=c.arcade_id)
     xr_users = c.xr_user.all().order_by('xr_user_status')
     arcadeID = c.arcade_id
     history = c.subscription_history.all().order_by('-subscription_start')
@@ -153,7 +154,8 @@ def client_pages(request, orgid):
     UserCount = c.arcade_user.filter(aracde_user_status='ACTIVE').count()
     XRUserCount = c.xr_user.filter(xr_user_status='ACTIVE').count()
     #PageSummary.objects.using('timber').update(username = Lower('username'))
-    user_log = PageSummary.objects.using('timber').filter(username__in = [user.email for user in current_users])
+    user_log = PageSummary.objects.using('timber').filter(username__in = 
+        [user.email for user in current_users])
 
     return render(request, 'ds/clientpage.html',
                   {'company':c, 'auser':current_users, 'history':history,

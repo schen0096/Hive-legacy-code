@@ -113,8 +113,8 @@
       {{ a.user_email }}
     </td>
     <td>
-      <span class="{% if a.aracde_user_status == 'ACTIVE' %} active-color {% elif a.aracde_user_status == 'INACTIVE' %} inactive-color {% endif %}">
-      {{ a.account_status }}</span>
+      <span class="{% if a.account_status == 1 %} active-color {% elif a.account_status == 0 %} inactive-color {% endif %}">
+      {% if a.account_status == 1 %} ACTIVE {% elif a.account_status == 0 %} INACTIVE {% endif %}</span>
     </td>
     <td>
       {{ a.action_taken }}

@@ -118,13 +118,14 @@
               {{ user.user_id}}
             </td>
             <td align="left">
-              <strong><span class="{% if user.aracde_user_status == 'ACTIVE' %} active-color {% elif user.aracde_user_status == 'INACTIVE' %} inactive-color {% endif %}"> {{ user.aracde_user_status}}
+            <strong><span class="{% if user.status == 1 %} active-color {% elif user.status == 0 %} inactive-color {% endif %}">
+            {% if user.status == 1 %} ACTIVE {% else %} INACTIVE {% endif %} </span></strong>
+            </td>
+              <td>
+                {{ user.first_name }}
               </td>
               <td>
-                {{ user.first_name}}
-              </td>
-              <td>
-                {{ user.last_name}}
+                {{ user.last_name }}
               </td>
               <td>
                 {{ user.email|lower }}
@@ -171,10 +172,10 @@
           {% for history in history %}
           <tr>
             <td class="arcade-padder">
-              {{ history.subscription_start}}
+              {{ history.subscription_start }}
             </td>
             <td>
-              {{ history.subscription_end}}
+              {{ history.subscription_end }}
             </td>
             {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
             <td>

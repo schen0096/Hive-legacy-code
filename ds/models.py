@@ -356,8 +356,10 @@ class UsersEmailMapping(models.Model):
     last_name = models.CharField(max_length=255, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
     access_level = models.CharField(max_length=20, blank=True, null=True)
+    status = models.BooleanField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'users_email_mapping'
-        
+
+

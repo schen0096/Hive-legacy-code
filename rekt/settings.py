@@ -99,7 +99,8 @@ DATABASES = {
         'NAME': 'rekt',
         'USER':rekt_u,
         'PASSWORD':rekt_p,
-        'HOST':"rekt-rds.c2xidsbamodi.us-east-1.rds.amazonaws.com",
+        'HOST':"hive.c7j7iwjz2l3m.us-east-1.rds.amazonaws.com",
+        #'HOST':"rekt-rds.c2xidsbamodi.us-east-1.rds.amazonaws.com",
         'PORT':'3306'
     },
     'dashboard':{
@@ -107,7 +108,8 @@ DATABASES = {
         'NAME': 'Dashboard',
         'USER':lab_u,
         'PASSWORD':lab_p,
-        'HOST':"labrds.c2xidsbamodi.us-east-1.rds.amazonaws.com",
+        'HOST':"lab.c7j7iwjz2l3m.us-east-1.rds.amazonaws.com",
+        #'HOST':"labrds.c2xidsbamodi.us-east-1.rds.amazonaws.com",
         #'HOST':"labrds-new.c2xidsbamodi.us-east-1.rds.amazonaws.com",
         'PORT':'3306',
         'OPTIONS': {
@@ -119,7 +121,8 @@ DATABASES = {
         'NAME': 'sandbox_transfer',
         'USER':lab_u,
         'PASSWORD':lab_p,
-        'HOST':"labrds.c2xidsbamodi.us-east-1.rds.amazonaws.com",
+        'HOST':"lab.c7j7iwjz2l3m.us-east-1.rds.amazonaws.com",
+        #'HOST':"labrds.c2xidsbamodi.us-east-1.rds.amazonaws.com",
         'PORT':'3306',
         'OPTIONS': {
             'connect_timeout':1,
@@ -130,7 +133,8 @@ DATABASES = {
         'NAME': 'Argus',
         'USER':lab_u,
         'PASSWORD':lab_p,
-        'HOST':"labrds.c2xidsbamodi.us-east-1.rds.amazonaws.com",
+        'HOST':"lab.c7j7iwjz2l3m.us-east-1.rds.amazonaws.com",
+        #'HOST':"labrds.c2xidsbamodi.us-east-1.rds.amazonaws.com",
         'PORT':'3306',
         'OPTIONS': {
             'connect_timeout':1,
@@ -141,7 +145,8 @@ DATABASES = {
         'NAME': 'Dashboard',
         'USER':lab_u,
         'PASSWORD':lab_p,
-        'HOST':"arcade-frontend-cluster.cluster-c2xidsbamodi.us-east-1.rds.amazonaws.com",
+        'HOST':"arcade-frontend.cluster-c7j7iwjz2l3m.us-east-1.rds.amazonaws.com",
+        #'HOST':"arcade-frontend-cluster.cluster-c2xidsbamodi.us-east-1.rds.amazonaws.com",
         'PORT':'3306',
         'OPTIONS': {
             'connect_timeout':1,
@@ -151,7 +156,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'USER':lab_u,
         'PASSWORD':lab_p,
-        'HOST':"supreme.c2xidsbamodi.us-east-1.rds.amazonaws.com",
+        'HOST':"supreme.c7j7iwjz2l3m.us-east-1.rds.amazonaws.com",
+        #'HOST':"supreme.c2xidsbamodi.us-east-1.rds.amazonaws.com",
         'PORT':'3306',
         'OPTIONS': {
             'connect_timeout':1,
@@ -161,7 +167,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'USER':arena_u,
         'PASSWORD':arena_p,
-        'HOST':"arenards-useast-1b.c2xidsbamodi.us-east-1.rds.amazonaws.com",
+        'HOST':"arena-frontend.c7j7iwjz2l3m.us-east-1.rds.amazonaws.com",
+        #'HOST':"arenards-useast-1b.c2xidsbamodi.us-east-1.rds.amazonaws.com",
         'PORT':'3306',
         'OPTIONS': {
             'connect_timeout':1,
@@ -171,7 +178,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'USER':xr_u,
         'PASSWORD':xr_p,
-        'HOST':"xr-rds.c2xidsbamodi.us-east-1.rds.amazonaws.com",
+        'HOST':"xr.c7j7iwjz2l3m.us-east-1.rds.amazonaws.com",
+        #'HOST':"xr-rds.c2xidsbamodi.us-east-1.rds.amazonaws.com",
         'PORT':'3306',
         'OPTIONS': {
             'connect_timeout':1,
@@ -182,7 +190,8 @@ DATABASES = {
         'NAME': 'arcade_logs_summary',
         'USER': timber_u,
         'PASSWORD': timber_p,
-        'HOST': 'gatekeeper-timber-instance-1.c2xidsbamodi.us-east-1.rds.amazonaws.com',
+        'HOST':"gatekeeper-timber.cluster-c7j7iwjz2l3m.us-east-1.rds.amazonaws.com",
+        #'HOST': 'gatekeeper-timber-instance-1.c2xidsbamodi.us-east-1.rds.amazonaws.com',
         'PORT': '3306',
         'OPTIONS': {
             'connect_timeout':1,
@@ -193,7 +202,8 @@ DATABASES = {
         'NAME': 'Horizon',
         'USER': frontend_u,
         'PASSWORD': frontend_p,
-        'HOST': 'arcade-frontend-cluster.cluster-c2xidsbamodi.us-east-1.rds.amazonaws.com',
+        'HOST':"arcade-frontend.cluster-c7j7iwjz2l3m.us-east-1.rds.amazonaws.com",
+        #'HOST': 'arcade-frontend-cluster.cluster-c2xidsbamodi.us-east-1.rds.amazonaws.com',
         'PORT': '3306',
         'OPTIONS': {
             'connect_timeout':1,
