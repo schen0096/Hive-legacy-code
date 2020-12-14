@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import Truncator
+from django.utils.crypto import get_random_string
 from datetime import datetime, timedelta
 from pytz import timezone
 from django.db.models.signals import post_save
@@ -52,6 +53,9 @@ class label(models.Model):
     def __str__(self):
         return self.label_name
 
+def generator():
+    return get_random_string(length=10)
+
 class company(models.Model):
     company_id = models.AutoField(primary_key=True)
     orgid = models.CharField(max_length=50, unique=True)
@@ -72,6 +76,7 @@ class company(models.Model):
     contract = models.CharField(max_length=250, blank=True)
     def __str__(self):
         return self.cname
+
     class Meta:
         verbose_name_plural = "companies"
 
@@ -143,7 +148,6 @@ class orgid(models.Model):
         max_length=50, unique=True, default='DEFAULT VALUE')
     def __str__(self):
         return self.orgid_value
-
 
 class company_log(models.Model):
     company_log_id = models.AutoField(primary_key=True)

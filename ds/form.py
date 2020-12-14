@@ -3,7 +3,7 @@ from .models import (company, company_log, orgid,
                      arcade_user_log, arcade_user, subscription_history,
                      subscription_history_log, interaction, interaction_log,
                      profile, profile_photo, label, xr_user, xr_user_log,
-                     xr_subscription_history, xr_sub_history_log)
+                     xr_subscription_history, xr_sub_history_log, generator)
 STATUS_CHOICES = [
     ('ACTIVE', 'Active'),
     ('INACTIVE', 'Inactive'),
@@ -15,7 +15,7 @@ class NewCompany(forms.ModelForm):
     '''Create a new company and add it to log record.'''
     class Meta:
         model = company
-        fields = ['orgid', 'cname', 'poc_firstname', 'poc_lastname',
+        fields = ['cname', 'poc_firstname', 'poc_lastname',
                   'poc_email', 'client_status', 'arcade_access_status',
                   'arcade_id', 'custom_deliverables', 'syndicated_reports',
                   'contract', 'xr_status']
@@ -29,9 +29,10 @@ class NewCompany(forms.ModelForm):
 
         }
     def writeord(self):
-        data = self.cleaned_data
-        log_record = orgid.objects.create(orgid_value=data['orgid'])
+    #     data = self.cleaned_data
+        log_record = orgid.objects.create(orgid_value=generator())
         return log_record
+
     def log(self):
         data = self.cleaned_data
         c_log = company_log(cname=data['cname'],

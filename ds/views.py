@@ -10,7 +10,7 @@ from .models import (company, arcade_user, subscription_history, interaction,
                      ArcadeSubscriptionsRekt, ActiveArcadeSubscriptions,
                      profile, profile_photo, label, xr_user, xr_subscription_history,
                      PageSummary, GatekeeperLogAccount, GatekeeperLogSubscription,
-                     GatekeeperLogUser, PermissionMaster, UsersEmailMapping
+                     GatekeeperLogUser, PermissionMaster, UsersEmailMapping, generator
                      )
 from django.db.models import Q, Max, Count
 from django.db.models.functions import Lower
@@ -151,7 +151,8 @@ def client_pages(request, orgid):
         arcadeStatus = "N/A"
         subList = []
     inter = c.interaction.all()
-    UserCount = c.arcade_user.filter(aracde_user_status='ACTIVE').count()
+    # UserCount = c.arcade_user.filter(aracde_user_status='ACTIVE').count()
+    UserCount = current_users.filter(status=1).count()
     XRUserCount = c.xr_user.filter(xr_user_status='ACTIVE').count()
     #PageSummary.objects.using('timber').update(username = Lower('username'))
     user_log = PageSummary.objects.using('timber').filter(username__in = 
@@ -173,15 +174,19 @@ def client_pages(request, orgid):
 @user_passes_test(check_group2, login_url='home')
 def new_company(request):
     labels = label.objects.all()
+
     if request.method == "POST":
         form = NewCompany(request.POST)
         labelName = request.POST.get('select_labels')
         companyLabel = label.objects.get(label_name=labelName)
         if form.is_valid():
+            Orgid = form.writeord()
             c = form.save(commit=False)
             c.company_label = companyLabel
-
-            Orgid = form.writeord()
+            c.orgid = Orgid
+            # Orgid = generator()
+            # company.orgid = Orgid
+            # company.save()
             log = form.log()
             log.updated_by = request.user
             log.orgid = Orgid

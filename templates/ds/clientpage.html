@@ -12,8 +12,8 @@
 
 
 {% block content %}
-<h1 align="center"> {{ company.cname}} </h1>
-
+<!-- <h1 align="center"> {{ company.cname}} </h1>
+ -->
 <div class="card mb-3 client-page round-corner-card" >
 
   <div class="card-header">
@@ -89,11 +89,11 @@
         <div class="row">
       <div class="col-7" align="right"><h5>Active Accounts: {{ count }}</h5></div>
       <div class="col" align="right">
-          {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
+<!--           {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
           <a href="{% url 'new_account' company.orgid %}"
           class="btn btn-primary btn-sm edit-btns"
           role="button">Add</a>
-          {% endif %}
+          {% endif %} -->
 </div>
         </div>
       </div>
