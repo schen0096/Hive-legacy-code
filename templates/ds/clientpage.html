@@ -42,7 +42,7 @@
         <div class="col">
           <p><strong>Contact Person: </strong>{{ company.poc_firstname }} {{ company.poc_lastname }}</p>
           <p><strong>Email: </strong> {{ company.poc_email}}</p>
-          <p><strong>Arcade Client ID: </strong> {{ company.arcade_id }}</p>
+          <!-- <p><strong>Arcade Client ID: </strong> {{ company.arcade_id }}</p> -->
           <p><strong>Organization ID: </strong>{{ company.orgid }}</p>
           <div class="superdata-link"><p><strong><a href="https://{{contractURL}}" target="_blank">Contract Link</a></strong></p></div>
         </div>
@@ -100,10 +100,10 @@
       <table class="table">
         <thead >
           <tr>
-            <th class="arcade-padder">Arcade ID</th>
-            <th>Status</th>
+            <!-- <th class="arcade-padder">Arcade ID</th> -->
             <th class="sorter-false filter-false">First Name</th>
             <th class="sorter-false filter-false">Last Name</th>
+            <th>Status</th>
             <th class="sorter-false filter-false">Email Address</th>
 <!--             {% if request.user|has_group:'Level 5' or request.user|has_group:'Level 4' %}
             <th class="sorter-false filter-false"> Edit</th>
@@ -114,18 +114,18 @@
         <tbody>
           {% for user in auser %}
           <tr>
-            <td class="arcade-padder">
+            <!-- <td class="arcade-padder">
               {{ user.user_id}}
-            </td>
-            <td align="left">
-            <strong><span class="{% if user.status == 1 %} active-color {% elif user.status == 0 %} inactive-color {% endif %}">
-            {% if user.status == 1 %} ACTIVE {% else %} INACTIVE {% endif %} </span></strong>
-            </td>
+            </td> -->
               <td>
                 {{ user.first_name }}
               </td>
               <td>
                 {{ user.last_name }}
+              </td>
+              <td align="left">
+              <strong><span class="{% if user.status == 1 %} active-color {% elif user.status == 0 %} inactive-color {% endif %}">
+              {% if user.status == 1 %} ACTIVE {% else %} INACTIVE {% endif %} </span></strong>
               </td>
               <td>
                 {{ user.email|lower }}

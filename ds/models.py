@@ -7,6 +7,7 @@ from pytz import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rekt.storage_backends import photo_storage
+from random import randint
 
 class profile_photo(models.Model):
     photo_id = models.AutoField(primary_key=True)
@@ -56,6 +57,9 @@ class label(models.Model):
 def generator():
     return get_random_string(length=10)
 
+def id_generator():
+    return randint(9000,9999)
+
 class company(models.Model):
     company_id = models.AutoField(primary_key=True)
     orgid = models.CharField(max_length=50, unique=True)
@@ -66,7 +70,7 @@ class company(models.Model):
     client_status = models.CharField(max_length=30)
     arcade_access_status = models.CharField(max_length=30)
     xr_status = models.CharField(max_length=30, default="INACTIVE")
-    arcade_id = models.IntegerField(blank=True, null=True)
+    arcade_id = models.IntegerField(randint(9000,9999), unique = True)
     custom_deliverables = models.CharField(max_length=10)
     syndicated_reports = models.CharField(max_length=10)
     company_label = models.ForeignKey(
@@ -79,6 +83,7 @@ class company(models.Model):
 
     class Meta:
         verbose_name_plural = "companies"
+        # unique_together = (('company_id','arcade_id'),)
 
 class arcade_user(models.Model):
     id = models.AutoField(primary_key=True)

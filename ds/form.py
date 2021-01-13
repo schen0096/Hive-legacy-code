@@ -3,7 +3,8 @@ from .models import (company, company_log, orgid,
                      arcade_user_log, arcade_user, subscription_history,
                      subscription_history_log, interaction, interaction_log,
                      profile, profile_photo, label, xr_user, xr_user_log,
-                     xr_subscription_history, xr_sub_history_log, generator)
+                     xr_subscription_history, xr_sub_history_log, generator,
+                     id_generator)
 STATUS_CHOICES = [
     ('ACTIVE', 'Active'),
     ('INACTIVE', 'Inactive'),
@@ -17,7 +18,7 @@ class NewCompany(forms.ModelForm):
         model = company
         fields = ['cname', 'poc_firstname', 'poc_lastname',
                   'poc_email', 'client_status', 'arcade_access_status',
-                  'arcade_id', 'custom_deliverables', 'syndicated_reports',
+                  'custom_deliverables', 'syndicated_reports',
                   'contract', 'xr_status']
 
         widgets = {
@@ -33,6 +34,7 @@ class NewCompany(forms.ModelForm):
         log_record = orgid.objects.create(orgid_value=generator())
         return log_record
 
+
     def log(self):
         data = self.cleaned_data
         c_log = company_log(cname=data['cname'],
@@ -41,7 +43,6 @@ class NewCompany(forms.ModelForm):
                             poc_email=data['poc_email'],
                             client_status=data['client_status'],
                             arcade_access_status=data['arcade_access_status'],
-                            arcade_id=data['arcade_id'],
                             custom_deliverables=data['custom_deliverables'],
                             syndicated_reports=data['syndicated_reports'],
                             contract=data['contract'],
@@ -145,7 +146,7 @@ class EditCompany(forms.ModelForm):
         model = company
         fields = ['cname', 'poc_firstname', 'poc_lastname',
                   'poc_email', 'client_status', 'arcade_access_status',
-                  'arcade_id', 'custom_deliverables', 'syndicated_reports',
+                'custom_deliverables', 'syndicated_reports',
                   'contract', 'company_label', 'xr_status',]
         widgets = {
             'client_status':forms.Select(choices=STATUS_CHOICES),
@@ -163,7 +164,6 @@ class EditCompany(forms.ModelForm):
                             poc_email=data['poc_email'],
                             client_status=data['client_status'],
                             arcade_access_status=data['arcade_access_status'],
-                            arcade_id=data['arcade_id'],
                             custom_deliverables=data['custom_deliverables'],
                             syndicated_reports=data['syndicated_reports'],
                             contract=data['contract'],

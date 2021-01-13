@@ -10,8 +10,8 @@ from .models import (company, arcade_user, subscription_history, interaction,
                      ArcadeSubscriptionsRekt, ActiveArcadeSubscriptions,
                      profile, profile_photo, label, xr_user, xr_subscription_history,
                      PageSummary, GatekeeperLogAccount, GatekeeperLogSubscription,
-                     GatekeeperLogUser, PermissionMaster, UsersEmailMapping, generator
-                     )
+                     GatekeeperLogUser, PermissionMaster, UsersEmailMapping, generator,
+                     id_generator)
 from django.db.models import Q, Max, Count
 from django.db.models.functions import Lower
 from django.views.generic import UpdateView, CreateView
@@ -184,16 +184,18 @@ def new_company(request):
             c = form.save(commit=False)
             c.company_label = companyLabel
             c.orgid = Orgid
+            c.arcade_id = id_generator()
+            c.save()
             # Orgid = generator()
             # company.orgid = Orgid
             # company.save()
             log = form.log()
             log.updated_by = request.user
             log.orgid = Orgid
+            log.arcade_id = c.arcade_id
             log.log_notes = 'Add'
             log.label = companyLabel
             log.save()
-            c.save()
             return redirect('clientlist')
         else:
             error=form.errors
