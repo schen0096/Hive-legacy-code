@@ -77,7 +77,7 @@ def rekthome(request):
         slackDict = {}
     statusDict.update(slackDict)
 #get ping results for websites
-    webStatus = WebsitePingResult.objects.using('default').order_by('-id')[:5]
+    webStatus = WebsitePingResult.objects.using('default').order_by('-id')[:4]
     webDict = {'webStatus':webStatus}
     statusDict.update(webDict)
 #data for EA upload

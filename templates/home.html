@@ -85,7 +85,7 @@
               </div>
             </a>
           </div>
-
+      {% endif %}
 
       {% if request.user|has_group:'QA' or request.user|has_group:'Tech' or request.user|has_group:'Analytics' %}
       <div class="col-4 mt-4">
@@ -99,17 +99,7 @@
         </a>
       </div>
       {% endif %}
-      <div class="col-4 mt-4">
-        <a href="{% url 'roadmap_list'%}">
-          <div class="card animate-pop-in round-corner-card" style="background-color:#965786;">
-            <div class="card-header card-box">
-              <h2 align="center"> Roadmaps </h2><br />
-              <p>Get to know SuperData main products: a blast from the past and a look into the future.  </p>
-            </div>
-          </div>
-        </a>
-      </div>
-      {% endif %}
+
       {%if request.user|has_group:'Level 3' or request.user|has_group:'Level 4' or request.user|has_group:'Level 5' %}
       <div class="col-4 mt-4">
         <a href="{% url 'clientlist' %}">

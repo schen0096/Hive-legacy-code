@@ -21,7 +21,7 @@ from django.contrib.auth import views as auth_views
 from kb import views as kbviews
 from ds import views as dsviews
 #from ds.views import PhotoCreateView
-from roadmaps.views import CreateRoadmapView, CreateRoadmapUrlView, UpdateRoadmapUrlView
+#from roadmaps.views import CreateRoadmapView, CreateRoadmapUrlView, UpdateRoadmapUrlView
 from argus import views as aviews
 from process import views as pviews
 from roadmaps import views as rviews
@@ -35,12 +35,12 @@ urlpatterns = [
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
     re_path('logout/$', auth_views.LogoutView.as_view(), name='logout'),
     path('ckdeditor/', include('ckeditor_uploader.urls')),
-    path('roadmaps/', rviews.roadmapList, name="roadmap_list"),
-    path('roadmaps/<pk>', rviews.roadmapPage, name='roadmap_page'),
-    path('roadmaps_add/', CreateRoadmapUrlView.as_view(), name="new_roadmap"),
-    path('roadmaps/<pk>/edit', UpdateRoadmapUrlView.as_view(), name="edit_roadmap"),
-    path('arcade_weekly_roadmap/', rviews.arcadeWeeklyPage, name="roadmap"),
-    path('upload/', CreateRoadmapView.as_view(), name='upload'),
+    #path('roadmaps/', rviews.roadmapList, name="roadmap_list"),
+    #path('roadmaps/<pk>', rviews.roadmapPage, name='roadmap_page'),
+    #path('roadmaps_add/', CreateRoadmapUrlView.as_view(), name="new_roadmap"),
+    #path('roadmaps/<pk>/edit', UpdateRoadmapUrlView.as_view(), name="edit_roadmap"),
+    #path('arcade_weekly_roadmap/', rviews.arcadeWeeklyPage, name="roadmap"),
+    #path('upload/', CreateRoadmapView.as_view(), name='upload'),
     #path('upload_photo/', PhotoCreateView.as_view(), name='upload_photo'),
     path('profile_page/', dsviews.profile_page, name='profile_page'),
     path('edit_profile_photo/', dsviews.edit_profile_photo, name='edit_profile_photo'),
