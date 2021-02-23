@@ -71,10 +71,10 @@
     <label >XR Status: </label>
     {{ form.xr_status |add_class:'form-control' }}
   </div>
-  <div class="col">
+<!--   <div class="col">
     <label >Arcade Client ID: </label>
     {{ form.arcade_id |add_class:'form-control' }}
-  </div>
+  </div> -->
   </div>
 
 
@@ -117,8 +117,8 @@
     <p><strong>XR Status:</strong><strong><span class="{% if company.xr_status == 'ACTIVE' %} active-color {% elif company.xr_status == 'INACTIVE' %} inactive-color {% endif %}"> {{ company.xr_status}}</span></strong></p>
     <p><strong>Custom Deliverables:</strong><strong><span class="{% if company.custom_deliverables == 'YES' %} active-color {% elif company.custom_deliverables == 'NO' %} inactive-color {% endif %}"> {{company.custom_deliverables}}</span></strong> </p>
     <p><strong>Syndicated Reports:</strong><strong><span class="{% if company.syndicated_reports == 'YES' %} active-color {% elif company.syndicated_reports == 'NO' %} inactive-color {% endif %}">  {{ company.syndicated_reports}}</span></strong></p>
-    <p><strong>Arcade Client ID:</strong> {{ company.arcade_id }}</p>
-    <p><strong>Lable</strong>: {{company.company_label.label_name|default:"None"}}</p>
+    <!-- <p><strong>Arcade Client ID:</strong> {{ company.arcade_id }}</p> -->
+    <p><strong>Label</strong>: {{company.company_label.label_name|default:"None"}}</p>
   </div>
 </div>
   </div>
