@@ -24,8 +24,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-#DEBUG = True
+#DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['rekt.superdataresearch.io',
                  'rekt-eb.us-east-1.elasticbeanstalk.com',
@@ -33,7 +33,8 @@ ALLOWED_HOSTS = ['rekt.superdataresearch.io',
                  'rekt-nginx.superdataresearch.com',
                  'hive.superdataresearch.io',
                  'rekt-prod.us-east-1.elasticbeanstalk.com',
-                 '10.4.39.122', '127.0.0.1', '10.246.165.187',]
+                 '10.4.39.122', '127.0.0.1', '10.246.165.187',
+                 '157.230.0.61']
 
 
 # Application definition

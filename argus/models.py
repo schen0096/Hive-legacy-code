@@ -726,7 +726,7 @@ class HighIngameArppuMarketLevelGenre(models.Model):
     segment = models.CharField(max_length=255, blank=True, null=True)
     region = models.CharField(max_length=255, blank=True, null=True)
     genre = models.CharField(max_length=255, blank=True, null=True)
-    platform = models.CharField(max_length=255, blank=True, null=True)
+    platform = models.CharField(max_length=255, blank=True, null=True)  
     month = models.IntegerField(blank=True, null=True)
     year = models.IntegerField(blank=True, null=True)
     ingame_arppu = models.FloatField(blank=True, primary_key=True)
